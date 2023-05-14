@@ -63,40 +63,4 @@ public class GeneralRecommendation {
             }
         }, (a, b) -> b.getHitPoint() - a.getHitPoint());
     }
-
-    public WuKingdomNode[] getRecommendedGeneralsByPolitic(char level) {
-        int sum = level == 'S' ? 250 : level == 'A' ? 220 : level == 'B' ? 190 : 0;
-        return getRecommendedGenerals(sum, node -> node.getPolitic() > 0);
-    }
-
-    public WuKingdomNode[] getRecommendedGeneralsByLeadership(char level) {
-        int sum = level == 'S' ? 250 : level == 'A' ? 220 : level == 'B' ? 190 : 0;
-        return getRecommendedGenerals(sum, node -> node.getLeadership() > 0);
-    }
-
-    public WuKingdomNode[] getRecommendedGeneralsByStrength(char level) {
-        int sum = level == 'S' ? 250 : level == 'A' ? 220 : level == 'B' ? 190 : 0;
-        return getRecommendedGenerals(sum, node -> node.getStrength() > 0);
-    }
-
-    public WuKingdomNode[] getRecommendedGeneralsByIntelligence(char level) {
-        int sum = level == 'S' ? 250 : level == 'A' ? 220 : level == 'B' ? 190 : 0;
-        return getRecommendedGenerals(sum, node -> node.getIntelligence() > 0);
-    }
-
-    public WuKingdomNode[] getRecommendedGenerals(int sum, Predicate<WuKingdomNode> predicate) {
-        List<WuKingdomNode> candidates = new ArrayList<>();
-        Consumer<WuKingdomNode> action = (node) -> {
-            if (predicate.test(node) && node.getAbilitySum() >= sum) {
-                candidates.add(node);
-            }
-        };
-        traverseInOrder(action);
-        Collections.sort(candidates, Comparator.comparingInt(WuKingdomNode::getAbilitySum).reversed());
-        if (candidates.size() >= 3) {
-            return new WuKingdomNode[]{candidates.get(0), candidates.get(1), candidates.get(2)};
-        } else {
-            return candidates.toArray(new WuKingdomNode[0]);
-        }
-    }
 }
