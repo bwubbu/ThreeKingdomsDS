@@ -13,7 +13,7 @@ public class GeneralRecommendation {
         Arrays.sort(generals, (a, b) -> b.getLeadership() - a.getLeadership());
     }
 
-    public void sortGeneralByStrength() {
+    public void sortGeneralsByStrength() {
         Arrays.sort(generals, (a, b) -> b.getStrength() - a.getStrength());
     }
 
