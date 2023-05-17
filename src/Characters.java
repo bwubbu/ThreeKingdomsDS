@@ -12,4 +12,9 @@ public class Characters {
     General luMeng = new General("Lu Meng", "General", "Cavalry", 70, 77, 93, 83, 88);
     General huangGai = new General("Huang Gai", "General", "Infantry", 83, 98, 72, 42, 89);
     Emperor sunQuan = new Emperor("Sun Quan", "Emperor", "Cavalry", 96, 98, 72, 77, 95, zhouYu, zhangZhao);
+    public General[] getAllGenerals() {
+        General[] generals = { xuSheng, zhuGeJin, luSu, taiShiCi, xiaoQiao, daQiao, zhouTai, ganNing, luMeng, huangGai };
+        return generals;
+    }
 }
+

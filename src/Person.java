@@ -22,6 +22,37 @@ public class Person {
         this.politic = politic;
         this.hitPoint = hitPoint;
     }
+    public String getName() {
+        return name;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getArmyType() {
+        return armyType;
+    }
+
+    public int getStrength() {
+        return strength;
+    }
+
+    public int getLeadership() {
+        return leadership;
+    }
+
+    public int getIntelligence() {
+        return intelligence;
+    }
+
+    public int getPolitic() {
+        return politic;
+    }
+
+    public int getHitPoint() {
+        return hitPoint;
+    }
 }
 class General extends Person {
     public General(String name, String title, String armyType, int strength, int leadership, int intelligence,
