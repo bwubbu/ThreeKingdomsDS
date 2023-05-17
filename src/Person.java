@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-class Person {
+public class Person {
     String name;
     String title;
     String armyType;
@@ -64,6 +64,7 @@ class Emperor extends Person {
         this.chiefOfManagement = chiefOfManagement;
     }
     public void assignGeneralsToDepartments(General[] generals) {
+        Characters characters = new Characters();
         for (General general : generals) {
             if (general.intelligence > general.strength) {
                 chiefOfManagement.addGeneral(general);
