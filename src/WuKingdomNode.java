@@ -1,5 +1,3 @@
-import java.util.function.Consumer;
-
 public class WuKingdomNode {
     private final String name;
     private final int strength;
@@ -36,20 +34,10 @@ public class WuKingdomNode {
     public int getHitPoint() {
         return hitPoint;
     }
-    public int getAbilitySum() {
+    public int getTotalAbility() {
         return strength + intelligence + leadership + politic + hitPoint;
     }
     public WuKingdomNode[] getChildren() {
         return children;
     }
-    public void traverseInOrder(Consumer<WuKingdomNode> action) {
-        if (children[0] != null) {
-            children[0].traverseInOrder(action);
-        }
-        action.accept(this);
-        if (children[1] != null) {
-            children[1].traverseInOrder(action);
-        }
-    }
 }
-

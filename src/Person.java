@@ -59,4 +59,11 @@ class Emperor extends Person {
         this.chiefOfMilitary = chiefOfMilitary;
         this.chiefOfManagement = chiefOfManagement;
     }
+    public ChiefOfMilitary getChiefOfMilitary() {
+        return chiefOfMilitary;
+    }
+
+    public ChiefOfManagement getChiefOfManagement() {
+        return chiefOfManagement;
+    }
 }

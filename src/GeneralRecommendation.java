@@ -1,6 +1,4 @@
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 public class GeneralRecommendation {
     private final WuKingdomNode[] generals;
@@ -30,37 +28,69 @@ public class GeneralRecommendation {
     }
 
     public int binarySearchGeneralsByLeadership(int key) {
-        return Arrays.binarySearch(generals, new WuKingdomNode("", 0, 0, 0, 0, 0) {
-            @Override
-            public int getLeadership() {
-                return key;
-            }
-        }, (a, b) -> b.getLeadership() - a.getLeadership());
+        return Arrays.binarySearch(generals, new WuKingdomNode("", key, 0, 0, 0, 0), (a, b) -> b.getLeadership() - a.getLeadership());
     }
 
     public int binarySearchGeneralsByStrength(int key) {
-        return Arrays.binarySearch(generals, new WuKingdomNode("", key, 0, 0, 0, 0), (a, b) -> b.getStrength() - a.getStrength());
+        return Arrays.binarySearch(generals, new WuKingdomNode("", 0, key, 0, 0, 0), (a, b) -> b.getStrength() - a.getStrength());
     }
 
     public int binarySearchGeneralsByIntelligence(int key) {
-        return Arrays.binarySearch(generals, new WuKingdomNode("", 0, key, 0, 0, 0), (a, b) -> b.getIntelligence() - a.getIntelligence());
+        return Arrays.binarySearch(generals, new WuKingdomNode("", 0, 0, key, 0, 0), (a, b) -> b.getIntelligence() - a.getIntelligence());
     }
 
     public int binarySearchGeneralsByPolitic(int key) {
-        return Arrays.binarySearch(generals, new WuKingdomNode("", 0, 0, 0, 0, 0) {
-            @Override
-            public int getPolitic() {
-                return key;
-            }
-        }, (a, b) -> b.getPolitic() - a.getPolitic());
+        return Arrays.binarySearch(generals, new WuKingdomNode("", 0, 0, 0, key, 0), (a, b) -> b.getPolitic() - a.getPolitic());
     }
 
     public int binarySearchGeneralsByHitPoint(int key) {
-        return Arrays.binarySearch(generals, new WuKingdomNode("", 0, 0, 0, 0, 0) {
-            @Override
-            public int getHitPoint() {
-                return key;
+        return Arrays.binarySearch(generals, new WuKingdomNode("", 0, 0, 0, 0, key), (a, b) -> b.getHitPoint() - a.getHitPoint());
+    }
+    private class GeneralComparator implements Comparator<WuKingdomNode> {
+        private final String attribute;
+
+        public GeneralComparator(String attribute) {
+            this.attribute = attribute;
+        }
+
+        public int compare(WuKingdomNode g1, WuKingdomNode g2) {
+            switch (attribute) {
+                case "leadership":
+                    return g2.getLeadership() - g1.getLeadership();
+                case "strength":
+                    return g2.getStrength() - g1.getStrength();
+                case "intelligence":
+                    return g2.getIntelligence() - g1.getIntelligence();
+                case "politic":
+                    return g2.getPolitic() - g1.getPolitic();
+                case "hitPoint":
+                    return g2.getHitPoint() - g1.getHitPoint();
+                default:
+                    throw new IllegalArgumentException("Invalid attribute");
             }
-        }, (a, b) -> b.getHitPoint() - a.getHitPoint());
+        }
+    }
+    public List<WuKingdomNode> findGeneralsByLevel(String attribute, String level, int minAbility) {
+        GeneralComparator comparator = new GeneralComparator(attribute);
+        List<WuKingdomNode> qualifiedGenerals = new ArrayList<>();
+        int sum = 0;
+
+        for (WuKingdomNode general : generals) {
+            if (comparator.compare(general, new WuKingdomNode("", 0, 0, 0, 0, minAbility)) >= 0) {
+                qualifiedGenerals.add(general);
+                sum += general.getTotalAbility();
+
+                if (level.equals("S") && sum >= 250) {
+                    break;
+                } else if (level.equals("A") && sum >= 220) {
+                    break;
+                } else if (level.equals("B") && sum >= 190) {
+                    break;
+                } else if (level.equals("C") && sum >= 150) {
+                    break;
+                }
+            }
+        }
+        return qualifiedGenerals;
     }
 }
