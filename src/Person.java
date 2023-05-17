@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 class Person {
     String name;
     String title;
@@ -8,7 +11,8 @@ class Person {
     int politic;
     int hitPoint;
 
-    public Person(String name, String title, String armyType, int strength, int leadership, int intelligence, int politic, int hitPoint) {
+    public Person(String name, String title, String armyType, int strength, int leadership, int intelligence,
+                  int politic, int hitPoint) {
         this.name = name;
         this.title = title;
         this.armyType = armyType;
@@ -19,51 +23,53 @@ class Person {
         this.hitPoint = hitPoint;
     }
 }
-
 class General extends Person {
-    String department;
-
-    public General(String name, String title, String armyType, int strength, int leadership, int intelligence, int politic, int hitPoint) {
+    public General(String name, String title, String armyType, int strength, int leadership, int intelligence,
+                   int politic, int hitPoint) {
         super(name, title, armyType, strength, leadership, intelligence, politic, hitPoint);
-        this.department = assignDepartment();
-    }
-
-    private String assignDepartment() {
-        if (intelligence > strength) {
-            return "Management";
-        } else {
-            return "Military";
-        }
     }
 }
-
 class ChiefOfMilitary extends Person {
-    public ChiefOfMilitary(String name, String title, String armyType, int strength, int leadership, int intelligence, int politic, int hitPoint) {
+    List<General> generals;
+
+    public ChiefOfMilitary(String name, String title, String armyType, int strength, int leadership,
+                           int intelligence, int politic, int hitPoint) {
         super(name, title, armyType, strength, leadership, intelligence, politic, hitPoint);
+        this.generals = new ArrayList<>();
+    }
+
+    public void addGeneral(General general) {
+        generals.add(general);
     }
 }
-
 class ChiefOfManagement extends Person {
-    public ChiefOfManagement(String name, String title, String armyType, int strength, int leadership, int intelligence, int politic, int hitPoint) {
+    List<General> generals;
+
+    public ChiefOfManagement(String name, String title, String armyType, int strength, int leadership,
+                             int intelligence, int politic, int hitPoint) {
         super(name, title, armyType, strength, leadership, intelligence, politic, hitPoint);
+        this.generals = new ArrayList<>();
+    }
+    public void addGeneral(General general) {
+        generals.add(general);
     }
 }
-
 class Emperor extends Person {
     ChiefOfMilitary chiefOfMilitary;
     ChiefOfManagement chiefOfManagement;
-
-    public Emperor(String name, String title, String armyType, int strength, int leadership, int intelligence, int politic, int hitPoint,
-                   ChiefOfMilitary chiefOfMilitary, ChiefOfManagement chiefOfManagement) {
+    public Emperor(String name, String title, String armyType, int strength, int leadership, int intelligence,
+                   int politic, int hitPoint, ChiefOfMilitary chiefOfMilitary, ChiefOfManagement chiefOfManagement) {
         super(name, title, armyType, strength, leadership, intelligence, politic, hitPoint);
         this.chiefOfMilitary = chiefOfMilitary;
         this.chiefOfManagement = chiefOfManagement;
     }
-    public ChiefOfMilitary getChiefOfMilitary() {
-        return chiefOfMilitary;
-    }
-
-    public ChiefOfManagement getChiefOfManagement() {
-        return chiefOfManagement;
+    public void assignGeneralsToDepartments(General[] generals) {
+        for (General general : generals) {
+            if (general.intelligence > general.strength) {
+                chiefOfManagement.addGeneral(general);
+            } else {
+                chiefOfMilitary.addGeneral(general);
+            }
+        }
     }
 }
