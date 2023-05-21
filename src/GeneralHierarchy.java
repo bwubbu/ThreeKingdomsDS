@@ -64,7 +64,7 @@ public class GeneralHierarchy {
 
             while (low <= high) {
                 int mid = (low + high) / 2;
-                int cmp = comparator.compare(generals[mid], new WuKingdomNode(null, 0, key, 0, 0, 0));
+                int cmp = comparator.compare(generals[mid], new WuKingdomNode(null, null, null, key, 0, 0, 0 ,0));
 
                 if (cmp == 0) {
                     return mid; // Found the key at index mid
@@ -78,13 +78,13 @@ public class GeneralHierarchy {
             return -1; // Key not found
         }
 
-    private WuKingdomNode[] getGeneralsArray() {
+    WuKingdomNode[] getGeneralsArray() {
         General[] generals = characters.getAllGenerals();
         WuKingdomNode[] nodes = new WuKingdomNode[generals.length];
 
         for (int i = 0; i < generals.length; i++) {
             General general = generals[i];
-            WuKingdomNode node = new WuKingdomNode(general.getName(), general.getStrength(),
+            WuKingdomNode node = new WuKingdomNode(general.getName(), general.getTitle(), general.getArmyType(), general.getStrength(),
                     general.getIntelligence(), general.getLeadership(), general.getPolitic(), general.getHitPoint());
             nodes[i] = node;
         }
