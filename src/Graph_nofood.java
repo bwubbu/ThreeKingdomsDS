@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Graph2 {
+public class Graph_nofood {
     private int numNodes;
     private List<Integer>[] adjacencyList;
 
