@@ -6,7 +6,7 @@ public class Graph_nofood {
     private int numNodes;
     private List<Integer>[] adjacencyList;
 
-    public Graph2(int numNodes) {
+    public Graph_nofood(int numNodes) {
         this.numNodes = numNodes;
         adjacencyList = new List[numNodes + 1];
         for (int i = 1; i <= numNodes; i++) {
@@ -70,7 +70,7 @@ public class Graph_nofood {
     }
 
     public static void main(String[] args) {
-        Graph2 graph = new Graph2(10);
+        Graph_nofood graph = new Graph_nofood(10);
         graph.addEdge(1, 2);
         graph.addEdge(1, 3);
         graph.addEdge(1, 6);
