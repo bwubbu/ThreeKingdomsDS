@@ -1,15 +1,16 @@
-import java.util.ArrayList;
-import java.util.List;
-
-public class General {
-    private final String name;
-    private final String title;
-    private final String armyType;
-    private final int strength;
-    private final int leadership;
-    private final int intelligence;
-    private final int politic;
-    private final int hitPoint;
+import java.util.*;
+import java.lang.*;
+class General implements Comparable<General> {
+    private String name;
+    private String title;
+    private String armyType;
+    private int strength;
+    private int leadership;
+    private int intelligence;
+    private int politic;
+    private int hitPoint;
+    private General right;
+    private General left;
 
     public General(String name, String title, String armyType, int strength, int leadership, int intelligence,
                    int politic, int hitPoint) {
@@ -21,8 +22,10 @@ public class General {
         this.intelligence = intelligence;
         this.politic = politic;
         this.hitPoint = hitPoint;
+        this.right = null;
+        this.left = null;
     }
-
+    // putting getters here
     public String getName() {
         return name;
     }
@@ -54,23 +57,74 @@ public class General {
     public int getHitPoint() {
         return hitPoint;
     }
-}
 
-class Emperor extends WuKingdomNode {
-    public Emperor(String name, String title, String armyType, int strength, int intelligence, int leadership, int politic, int hitPoint) {
-        super(name, title, armyType, strength, intelligence, leadership, politic, hitPoint);
+    public General getRight() {
+        return right;
+    }
+    public General getLeft() {
+        return left;
+    }
+    // putting setters here
+
+    public void setRight(General right) {
+        this.right = right;
+    }
+
+    public void setLeft(General right) {
+        this.left = left;
+    }
+
+    public int getTotalAbility() {
+        return politic + leadership + strength + intelligence;
+    }
+
+    @Override
+    public int compareTo(General other) {
+        return Integer.compare(this.leadership, other.leadership);
     }
 }
+class WuKingdomNode {
+    public General general;
+    public WuKingdomNode parent;
+    public List<WuKingdomNode> children;
 
-class ChiefOfMilitary extends WuKingdomNode {
-    public ChiefOfMilitary(String name, String title, String armyType, int strength, int intelligence, int leadership, int politic, int hitPoint) {
-        super(name, title, armyType, strength, intelligence, leadership, politic, hitPoint);
+    public WuKingdomNode(General general) {
+        this.general = general;
+        this.parent = null;
+        this.children = new ArrayList<>();
+    }
+
+    public General getGeneral() {
+        return general;
+    }
+
+    public WuKingdomNode getParent() {
+        return parent;
+    }
+
+    public void setParent(WuKingdomNode parent) {
+        this.parent = parent;
+    }
+
+    public List<WuKingdomNode> getChildren() {
+        return children;
+    }
+
+    public void addChild(WuKingdomNode child) {
+        child.setParent(this);
+        this.children.add(child);
+    }
+
+    public void displayWuKingdom() {
+        displayNode(this, "");
+    }
+
+    private void displayNode(WuKingdomNode node, String indent) {
+        General generic = node.getGeneral();
+        System.out.printf("\n" + indent + generic.getName() + "\t |" + generic.getArmyType() + "|");
+
+        for (WuKingdomNode child : node.getChildren()) {
+            displayNode(child, indent + "  ");
+        }
     }
 }
-
-class ChiefOfManagement extends WuKingdomNode {
-    public ChiefOfManagement(String name, String title, String armyType, int strength, int intelligence, int leadership, int politic, int hitPoint) {
-        super(name, title, armyType, strength, intelligence, leadership, politic, hitPoint);
-    }
-}
-

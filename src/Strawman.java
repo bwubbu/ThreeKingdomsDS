@@ -1,5 +1,3 @@
-
-package kingdom;
 import java.util.Random;
 public class Strawman {
     private int StrawmanNum;

@@ -1,4 +1,3 @@
-package TUTO6;
 public class Encryption {
     private final String alphabet = "abcdefghijklmnopqrstuvwxyz";
     private final String encryptAlphabet = "qwertyuiopasdfghjklzxcvbnm";
