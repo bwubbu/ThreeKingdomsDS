@@ -184,9 +184,6 @@ public class GeneralHierarchy {
                 right = mid - 1;
             }
         }
-
         return -(left + 1);
     }
-
-
 }
