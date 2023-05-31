@@ -128,13 +128,29 @@ public class GeneralHierarchy {
             }
 
             if (!excludedGenerals.contains(general) && isPositiveStat(general, field)) {
-                team.add(general);
-                excludedGenerals.add(general);
-                remainingCount--;
+                boolean canAddToTeam = true;
+
+                // Check if the general's ability sum is higher than other stats
+                for (General selectedGeneral : team) {
+                    if (getTotalAbility(general) <= getTotalAbility(selectedGeneral)) {
+                        canAddToTeam = false;
+                        break;
+                    }
+                }
+
+                if (canAddToTeam) {
+                    team.add(general);
+                    excludedGenerals.add(general);
+                    remainingCount--;
+                }
             }
         }
 
         return team;
+    }
+
+    private static int getTotalAbility(General general) {
+        return general.getLeadership() + general.getStrength() + general.getIntelligence() + general.getPolitic();
     }
     private static boolean isPositiveStat(General general, String field) {
         int stat;
@@ -164,7 +180,7 @@ public class GeneralHierarchy {
                     ", Leadership: " + general.getLeadership() +
                     ", Strength: " + general.getStrength() +
                     ", Intelligence: " + general.getIntelligence() +
-                    ", Ability Sum: " + general.getTotalAbility());
+                    ", Total Ability : " + general.getTotalAbility());
         }
     }
 
