@@ -17,7 +17,7 @@ public class QuestionThreeMain {
     ArrayList<Integer> arrowshot = new ArrayList<>();
     ArrayList<String> Direction = new ArrayList<>();
     ArrayList<Integer> receivedArrow = new ArrayList<>();
-    int sumArrow;
+    int sumArrow=0;
     
     System.out.println("Front Part");
     boat.setFront(putStrawman());
