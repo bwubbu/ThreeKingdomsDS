@@ -106,10 +106,12 @@ public class Encryption {
         return reversedStr;
     }
     public static void main(String[] args) {
-    Encryption encryption = new Encryption();
-    //Pang Tong sent to us the encrypted message
-    System.out.println(encryption.encrypt("Advise Cao Cao to use The Chain Strategem, which is to chain his battleships with strong iron chains.", 7, '$'));
-    //Decrypted message
-        System.out.println(encryption.decrypt("^iaehms$^pic$^pic$qc$wms$^qgs$^pgihx$^mqniqsfsz,$rghpg$hm$qc$pgihx$ghm$oiqqlsmghvm$rhqg$mqncxf$hncx$pgihxm.", 7, '$'));
+        Encryption encryption = new Encryption();
+        //Pang Tong sent to us the encrypted message
+        String encryptText = encryption.encrypt("Advise Cao Cao to use The Chain Strategem, which is to chain his battleships with strong iron chains.", 7, '$');
+        System.out.println("Encrypted Text = " + encryptText);
+        //We decrypt the message
+        String decryptText = encryption.decrypt("^iaehms$^pic$^pic$qc$wms$^qgs$^pgihx$^mqniqsfsz,$rghpg$hm$qc$pgihx$ghm$oiqqlsmghvm$rhqg$mqncxf$hncx$pgihxm.", 7, '$');
+        System.out.println("Decrypted Text = "+ decryptText);
 }
 }

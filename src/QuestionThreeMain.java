@@ -17,6 +17,7 @@ public class QuestionThreeMain {
     ArrayList<Integer> arrowshot = new ArrayList<>();
     ArrayList<String> Direction = new ArrayList<>();
     ArrayList<Integer> receivedArrow = new ArrayList<>();
+    int sumArrow;
     
     System.out.println("Front Part");
     boat.setFront(putStrawman());
@@ -41,12 +42,14 @@ public class QuestionThreeMain {
         arrowshot.add(input.nextInt());
         Direction.add(RandomDirection());
      }
-    for(int i=0; i<waves; i++){
-        System.out.printf("\n%d wave arrow:%d",i+1,arrowshot.get(i));
-        receivedArrow.add(boat.Attack(Direction.get(i),arrowshot.get(i)));
-    }
-        System.out.println("\nXBoat Direction :"+Direction.toString());
+        for(int i=0; i<waves; i++){
+            System.out.printf("\n%d wave arrow:%d",i+1,arrowshot.get(i));
+            receivedArrow.add(boat.Attack(Direction.get(i),arrowshot.get(i)));
+            sumArrow+=receivedArrow.get(i);
+        }
+        System.out.println("\nBoat Direction :"+Direction.toString());
         System.out.println("Arrow Received :"+receivedArrow.toString());
+        System.out.println("Total:"+sumArrow);
    }
     public static String RandomDirection(){
         Random r = new Random();
