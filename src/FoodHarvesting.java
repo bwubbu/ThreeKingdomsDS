@@ -2,11 +2,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Graph_nofood {
+public class FoodHarvesting {
     private int numNodes;
     private List<Integer>[] adjacencyList;
 
-    public Graph_nofood(int numNodes) {
+    public FoodHarvesting(int numNodes) {
         this.numNodes = numNodes;
         adjacencyList = new List[numNodes + 1];
         for (int i = 1; i <= numNodes; i++) {
@@ -70,7 +70,7 @@ public class Graph_nofood {
     }
 
     public static void main(String[] args) {
-        Graph_nofood graph = new Graph_nofood(10);
+        FoodHarvesting graph = new FoodHarvesting(10);
         graph.addEdge(1, 2);
         graph.addEdge(1, 3);
         graph.addEdge(1, 6);
