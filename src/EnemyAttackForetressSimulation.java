@@ -1,9 +1,9 @@
 import java.util.*;
 
-public class Graph {
+public class EnemyAttackForetressSimulation {
     private Map<Integer, List<Integer>> adjacencyList;
 
-    public Graph() {
+    public EnemyAttackForetressSimulation() {
         adjacencyList = new HashMap<>();
     }
 
@@ -52,7 +52,7 @@ public class Graph {
 
     public static void main(String[] args) {
         System.out.println("Enter the base camp for the enemy base camp: ");
-        Graph graph = new Graph();
+        EnemyAttackForetressSimulation graph = new EnemyAttackForetressSimulation();
         
 
         // Adding edges to the graph
