@@ -39,7 +39,7 @@ class WuKingdomNode {
 
     private void displayNode(WuKingdomNode node, String indent) {
         General generic = node.getGeneral();
-        System.out.printf("\n" + indent + generic.getName() + "\t |" + generic.getArmyType() + "|");
+        System.out.printf("\n" + indent + generic.getName() + "\t <" + generic.getArmyType() + ">");
 
         for (WuKingdomNode child : node.getChildren()) {
             displayNode(child, indent + "  ");
