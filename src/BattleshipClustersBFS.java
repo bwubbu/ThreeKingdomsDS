@@ -1,7 +1,7 @@
 import java.util.LinkedList;
 import java.util.Queue;
 //using bfs
-public class BattleshipClusters {
+class BattleshipClusters {
     public static void main(String[] args) {
         int[][] matrix = {
             {1, 1, 0, 0},

@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class MazeEscape {
+class MazeEscape {
     public static void main(String[] args) {
         int[][] maze = {
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},

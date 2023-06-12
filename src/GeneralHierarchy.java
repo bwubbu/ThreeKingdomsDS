@@ -39,7 +39,7 @@ public class GeneralHierarchy {
 
         for (General general : generals) {
             WuKingdomNode generalNode = new WuKingdomNode(general);
-//            System.out.println(general.getTotalAbility() + " " + general.getName());
+            System.out.println(general.getTotalAbility() + " " + general.getName());
             if (general.getIntelligence() > general.getStrength()) {
                 zhangZhaoN.addChild(generalNode);
             } else {
@@ -203,10 +203,146 @@ public class GeneralHierarchy {
         return -(left + 1);
     }
 }*/
-import java.util.*;
+/*
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
-public class GeneralHierarchy {
+public class GeneralHierarchy extends Frame {
+
+    private static final long serialVersionUID = 1L;
+
+    private List<General> generals;
+
+    public GeneralHierarchy() {
+        super("General Hierarchy");
+
+        generals = new ArrayList<>();
+        General sunWu = new General("Sun Quan", "Emperor", "Cavalry", 96, 98, 72, 77, 95);
+        WuKingdomNode sunWuN = new WuKingdomNode(sunWu);
+
+        General zhouYu = new General("Zhou Yu", "Chief of Military", "Cavalry", 80, 86, 97, 80, 90);
+        WuKingdomNode zhouYuN = new WuKingdomNode(zhouYu);
+
+        General zhangZhao = new General("Zhang Zhao", "Chief of Management", "Archer", 22, 80, 89, 99, 60);
+        WuKingdomNode zhangZhaoN = new WuKingdomNode(zhangZhao);
+
+        sunWuN.addChild(zhouYuN);
+        sunWuN.addChild(zhangZhaoN);
+
+        General xuSheng = new General("Xu Sheng", "General", "Archer", 90, 78, 72, 40, 94);
+        General zhuGeJin = new General("Zu Ge Jin", "General", "Archer", 63, 61, 88, 82, 71);
+        General luSu = new General("Lu Su", "General", "Infantry", 43, 87, 84, 88, 53);
+        General taiShiCi = new General("Tai Shi Ci", "General", "Cavalry", 96, 81, 43, 33, 97);
+        General xiaoQiao = new General("Xiao Qiao", "General", "Infantry", 42, 52, 89, 77, 34);
+        General daQiao = new General("Da Qiao", "General", "Cavalry", 39, 62, 90, 62, 41);
+        General zhouTai = new General("Zhou Tai", "General", "Infantry", 92, 89, 72, 43, 99);
+        General ganNing = new General("Gan Ning", "General", "Archer", 98, 92, 45, 23, 97);
+        General luMeng = new General("Lu Meng", "General", "Cavalry", 70, 77, 93, 83, 88);
+        General huangGai = new General("Huang Gai", "General", "Infantry", 83, 98, 72, 42, 89);
+
+        generals.add(xuSheng);
+        generals.add(zhuGeJin);
+        generals.add(luSu);
+        generals.add(taiShiCi);
+        generals.add(xiaoQiao);
+        generals.add(daQiao);
+        generals.add(zhouTai);
+        generals.add(ganNing);
+        generals.add(luMeng);
+        generals.add(huangGai);
+
+        // Create a panel to display the generals.
+        Panel generalPanel = new Panel();
+        generalPanel.setLayout(new GridLayout(generals.size(), 1));
+
+        for (General general : generals) {
+            Label label = new Label(general.getName());
+            generalPanel.add(label);
+        }
+
+        // Create a button to sort the generals by total ability.
+        Button sortButton = new Button("Sort by Total Ability");
+        sortButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Sort the generals by total ability.
+                Collections.sort(generals, new Comparator<General>() {
+                    @Override
+                    public int compare(General o1, General o2) {
+                        return o1.getTotalAbility() - o2.getTotalAbility();
+                    }
+                });
+
+                // Update the display.
+                for (int i = 0; i < generals.size(); i++) {
+                    Label label = (Label) generalPanel.getComponent(i);
+                    label.setText(generals.get(i).getName());
+                }
+            }
+        });
+
+        // Add the panel and button to the frame.
+        add(generalPanel, BorderLayout.CENTER);
+        add(sortButton, BorderLayout.SOUTH);
+
+        pack();
+        setVisible(true);
+    }
+
     public static void main(String[] args) {
+        new GeneralHierarchy();
+    }
+}*/
+
+import java.io.*;
+import java.util.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.List;
+import javax.imageio.ImageIO;
+
+public class GeneralHierarchy extends JFrame {
+    private JTextArea outputTextArea;
+
+    public GeneralHierarchy() {
+        // Set up the frame
+        setTitle("General Hierarchy");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setPreferredSize(new Dimension(800, 600));
+
+        // Create the output text area
+        outputTextArea = new JTextArea();
+        outputTextArea.setEditable(false);
+
+        // Add the output text area to a scroll pane
+        JScrollPane scrollPane = new JScrollPane(outputTextArea);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        // Set the layout manager
+        setLayout(new BorderLayout());
+        add(scrollPane, BorderLayout.CENTER);
+
+        // Display the frame
+        pack();
+        setLocationRelativeTo(null); // Center the window on the screen
+        setVisible(true);
+
+        // Call the method to run the code and display the output
+        displayOutput();
+    }
+
+    private void displayOutput() {
+        // Redirect the console output to the JTextArea
+        TextAreaOutputStream textOutputStream = new TextAreaOutputStream(outputTextArea);
+        System.setOut(new PrintStream(textOutputStream));
+
+        // The code from the original main method
         General sunWu = new General("Sun Quan", "Emperor", "Cavalry", 96, 98, 72, 77, 95);
         WuKingdomNode sunWuN = new WuKingdomNode(sunWu);
 
@@ -244,7 +380,7 @@ public class GeneralHierarchy {
 
         for (General general : generals) {
             WuKingdomNode generalNode = new WuKingdomNode(general);
-//            System.out.println(general.getTotalAbility() + " " + general.getName());
+            System.out.println(general.getTotalAbility() + " " + general.getName());
             if (general.getIntelligence() > general.getStrength()) {
                 zhangZhaoN.addChild(generalNode);
             } else {
@@ -304,6 +440,7 @@ public class GeneralHierarchy {
         displayTeam(intelligenceTeam);
 
     }
+
     //so that there won't be a 4th parameter
     private static List<General> formTeam(List<General> generals, String field, int count) {
         List<General> team = new ArrayList<>();
@@ -322,6 +459,7 @@ public class GeneralHierarchy {
 
         return team;
     }
+
     // for excluding the same repeating generals
     private static List<General> formTeam(List<General> generals, String field, int count, Set<General> excludedGenerals) {
         List<General> team = new ArrayList<>();
@@ -357,6 +495,7 @@ public class GeneralHierarchy {
     private static int getTotalAbility(General general) {
         return general.getLeadership() + general.getStrength() + general.getIntelligence() + general.getPolitic();
     }
+
     private static boolean isPositiveStat(General general, String field) {
         int stat;
         switch (field) {
@@ -406,5 +545,41 @@ public class GeneralHierarchy {
             }
         }
         return -(left + 1);
+    }
+    private void saveOutputToFile(String filename) {
+        try {
+            File outputFile = new File(filename);
+            PrintWriter writer = new PrintWriter(outputFile);
+
+            // Write the output from the JTextArea to the file
+            writer.write(outputTextArea.getText());
+
+            writer.close();
+            System.out.println("Output saved to file: " + filename);
+        } catch (IOException e) {
+            System.err.println("Error saving output to file: " + e.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        // Create the GUI on the event dispatch thread
+        SwingUtilities.invokeLater(() -> {
+            new GeneralHierarchy();
+        });
+    }
+}
+
+class TextAreaOutputStream extends OutputStream {
+    private JTextArea textArea;
+
+    public TextAreaOutputStream(JTextArea textArea) {
+        this.textArea = textArea;
+    }
+
+    @Override
+    public void write(int b) throws IOException {
+        // Redirect the output to the JTextArea
+        textArea.append(String.valueOf((char) b));
+        textArea.setCaretPosition(textArea.getDocument().getLength());
     }
 }
