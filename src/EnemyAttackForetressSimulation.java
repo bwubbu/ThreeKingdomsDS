@@ -14,46 +14,43 @@ public class EnemyAttackForetressSimulation {
     }
 
     public List<List<Integer>> breadthFirstSearch(int start, int target) {
-    Queue<Pair<Integer, List<Integer>>> queue = new LinkedList<>();
-    queue.offer(new Pair<>(start, new ArrayList<>(Collections.singletonList(start))));
+        Queue<Pair<Integer, List<Integer>>> queue = new LinkedList<>();
+        queue.offer(new Pair<>(start, new ArrayList<>(Collections.singletonList(start))));
 
-    List<List<Integer>> paths = new ArrayList<>();
-    int shortestPathLength = Integer.MAX_VALUE; // Variable to track the length of the shortest path
+        List<List<Integer>> paths = new ArrayList<>();
+        int shortestPathLength = Integer.MAX_VALUE; // Variable to track the length of the shortest path
 
-    while (!queue.isEmpty()) {
-        Pair<Integer, List<Integer>> current = queue.poll();
-        int node = current.getKey();
-        List<Integer> path = current.getValue();
+        while (!queue.isEmpty()) {
+            Pair<Integer, List<Integer>> current = queue.poll();
+            int node = current.getKey();
+            List<Integer> path = current.getValue();
 
-        if (node == target) {
-            paths.add(path);
-            shortestPathLength = path.size(); // Update the length of the shortest path
-        }
+            if (node == target) {
+                paths.add(path);
+                shortestPathLength = path.size(); // Update the length of the shortest path
+            }
 
-        if (path.size() > shortestPathLength) {
-            // Skip exploring paths longer than the current shortest path length
-            continue;
-        }
+            if (path.size() > shortestPathLength) {
+                // Skip exploring paths longer than the current shortest path length
+                continue;
+            }
 
-        List<Integer> neighbors = adjacencyList.getOrDefault(node, new ArrayList<>());
-        for (int neighbor : neighbors) {
-            if (!path.contains(neighbor)) {
-                List<Integer> newPath = new ArrayList<>(path);
-                newPath.add(neighbor);
-                queue.offer(new Pair<>(neighbor, newPath));
+            List<Integer> neighbors = adjacencyList.getOrDefault(node, new ArrayList<>());
+            for (int neighbor : neighbors) {
+                if (!path.contains(neighbor)) {
+                    List<Integer> newPath = new ArrayList<>(path);
+                    newPath.add(neighbor);
+                    queue.offer(new Pair<>(neighbor, newPath));
+                }
             }
         }
+
+        return paths;
     }
-
-    return paths;
-}
-
-
 
     public static void main(String[] args) {
         System.out.println("Enter the base camp for the enemy base camp: ");
         EnemyAttackForetressSimulation graph = new EnemyAttackForetressSimulation();
-        
 
         // Adding edges to the graph
         graph.addEdge(1, 2);
@@ -90,7 +87,7 @@ public class EnemyAttackForetressSimulation {
         graph.addEdge(10, 8);
         graph.addEdge(10, 9);
 
-        
+
         Scanner scanner = new Scanner(System.in);
         int enemyBaseCamp = scanner.nextInt();
 
@@ -101,23 +98,27 @@ public class EnemyAttackForetressSimulation {
 
         // Find the shortest path length
         for (List<Integer> path : paths) {
-         if (path.size() < shortestPathLength) {
-        shortestPathLength = path.size();
+            if (path.size() < shortestPathLength) {
+                shortestPathLength = path.size();
             }
         }
 
         // Filter out paths that are not the shortest path
         for (List<Integer> path : paths) {
             if (path.size() == shortestPathLength) {
-            shortestPaths.add(path);
+                shortestPaths.add(path);
             }
         }
 
-        // Display the shortest paths
-        System.out.println("Best path:");
+        // Display the best paths
+        System.out.println("Best paths:");
         for (List<Integer> path : shortestPaths) {
-            System.out.println(path.toString().replaceAll("[\\[\\],]", " -> "));
+            StringBuilder sb = new StringBuilder();
+            sb.append("1");
+            for (int i = 1; i < path.size(); i++) {
+                sb.append(" -> ").append(path.get(i));
+            }
+            System.out.println(sb.toString());
         }
-
     }
 }
