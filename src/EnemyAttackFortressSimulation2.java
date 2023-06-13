@@ -1,6 +1,7 @@
+
 import java.util.*;
 
-public class  {
+public class  EnemyAttackFortressSimulation2{
     private Map<Integer, List<Integer>> adjacencyList;
 
     public EnemyAttackFortressSimulation2() {
@@ -12,7 +13,6 @@ public class  {
         neighbors.add(destination);
         adjacencyList.put(source, neighbors);
     }
-
     public double getTravelTime(int source, int destination, String terrain, String unit) {
         // Define the speeds for each unit and terrain
         Map<String, Double> speedMap = new HashMap<>();
