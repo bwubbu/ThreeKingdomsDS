@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class EnemyAttackFortressSimulation {
-    private Map<Integer, List<Integer>> adjacencyList;
+    private final Map<Integer, List<Integer>> adjacencyList;
 
     public EnemyAttackFortressSimulation() {
         adjacencyList = new HashMap<>();
@@ -11,6 +11,41 @@ public class EnemyAttackFortressSimulation {
         List<Integer> neighbors = adjacencyList.getOrDefault(source, new ArrayList<>());
         neighbors.add(destination);
         adjacencyList.put(source, neighbors);
+    }
+    public void addEdgesToGraph() {
+        addEdge(1, 2);
+        addEdge(1, 3);
+        addEdge(1, 6);
+        addEdge(1, 10);
+        addEdge(2, 1);
+        addEdge(2, 4);
+        addEdge(3, 1);
+        addEdge(3, 4);
+        addEdge(3, 7);
+        addEdge(4, 2);
+        addEdge(4, 3);
+        addEdge(4, 5);
+        addEdge(5, 4);
+        addEdge(5, 6);
+        addEdge(5, 7);
+        addEdge(6, 1);
+        addEdge(6, 5);
+        addEdge(6, 7);
+        addEdge(6, 8);
+        addEdge(7, 5);
+        addEdge(7, 6);
+        addEdge(7, 8);
+        addEdge(7, 9);
+        addEdge(8, 6);
+        addEdge(8, 7);
+        addEdge(8, 9);
+        addEdge(8, 10);
+        addEdge(9, 7);
+        addEdge(9, 8);
+        addEdge(9, 10);
+        addEdge(10, 1);
+        addEdge(10, 8);
+        addEdge(10, 9);
     }
 
     public List<List<Integer>> breadthFirstSearch(int start, int target) {
@@ -51,42 +86,7 @@ public class EnemyAttackFortressSimulation {
     public static void main(String[] args) {
         System.out.println("Enter the base camp for the enemy base camp: ");
         EnemyAttackFortressSimulation graph = new EnemyAttackFortressSimulation();
-
-        // Adding edges to the graph
-        graph.addEdge(1, 2);
-        graph.addEdge(1, 3);
-        graph.addEdge(1, 6);
-        graph.addEdge(1, 10);
-        graph.addEdge(2, 1);
-        graph.addEdge(2, 4);
-        graph.addEdge(3, 1);
-        graph.addEdge(3, 4);
-        graph.addEdge(3, 7);
-        graph.addEdge(4, 2);
-        graph.addEdge(4, 3);
-        graph.addEdge(4, 5);
-        graph.addEdge(5, 4);
-        graph.addEdge(5, 6);
-        graph.addEdge(5, 7);
-        graph.addEdge(6, 1);
-        graph.addEdge(6, 5);
-        graph.addEdge(6, 7);
-        graph.addEdge(6, 8);
-        graph.addEdge(7, 5);
-        graph.addEdge(7, 6);
-        graph.addEdge(7, 8);
-        graph.addEdge(7, 9);
-        graph.addEdge(8, 6);
-        graph.addEdge(8, 7);
-        graph.addEdge(8, 9);
-        graph.addEdge(8, 10);
-        graph.addEdge(9, 7);
-        graph.addEdge(9, 8);
-        graph.addEdge(9, 10);
-        graph.addEdge(10, 1);
-        graph.addEdge(10, 8);
-        graph.addEdge(10, 9);
-
+        graph.addEdgesToGraph();
 
         Scanner scanner = new Scanner(System.in);
         int enemyBaseCamp = scanner.nextInt();
@@ -118,7 +118,7 @@ public class EnemyAttackFortressSimulation {
             for (int i = 1; i < path.size(); i++) {
                 sb.append(" -> ").append(path.get(i));
             }
-            System.out.println(sb.toString());
+            System.out.println(sb);
         }
     }
 }
