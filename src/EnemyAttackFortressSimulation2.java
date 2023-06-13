@@ -101,43 +101,22 @@ public class EnemyAttackFortressSimulation2 extends EnemyAttackFortressSimulatio
     }
 
     public double calculateTime(double distance, String unit, String terrain) {
-        double speed;
+        double speed = switch (unit) {
+            case "Cavalry" -> 2.0;
+            case "Archer" -> 1.0;
+            case "Infantry" -> 1.0;
+            default -> 1.0;
+        };
 
-        switch (unit) {
-            case "Cavalry":
-                speed = 2.0;
-                break;
-            case "Archer":
-                speed = 1.0;
-                break;
-            case "Infantry":
-                speed = 1.0;
-                break;
-            default:
-                speed = 1.0;
-        }
+        double terrainFactor = switch (terrain) {
+            case "flat" -> 1.0;
+            case "forest" -> 0.8;
+            case "swamp" -> 0.3;
+            case "plank" -> 0.5;
+            default -> 1.0;
+        };
 
-        double terrainFactor;
-
-        switch (terrain) {
-            case "flat":
-                terrainFactor = 1.0;
-                break;
-            case "forest":
-                terrainFactor = 0.8;
-                break;
-            case "swamp":
-                terrainFactor = 0.3;
-                break;
-            case "plank":
-                terrainFactor = 0.5;
-                break;
-            default:
-                terrainFactor = 1.0;
-        }
-
-        double time = distance / (speed * terrainFactor);
-        return time;
+        return distance / (speed * terrainFactor);
     }
 
     public static void main(String[] args) {
@@ -175,7 +154,7 @@ public class EnemyAttackFortressSimulation2 extends EnemyAttackFortressSimulatio
             for (int i = 1; i < path.size(); i++) {
                 sb.append(" -> ").append(path.get(i));
             }
-            System.out.println(sb.toString());
+            System.out.println(sb);
         }
 
         System.out.println("Enter the unit type (Cavalry/Archer/Infantry): ");
