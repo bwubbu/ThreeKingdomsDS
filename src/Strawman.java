@@ -20,6 +20,9 @@ public class Strawman {
             usage1++;
             return StrawmanNum;
         }
+        else if(usage1==2){
+            return StrawmanNum=0;
+        }
         else{
             usage1++;
             Decreased();

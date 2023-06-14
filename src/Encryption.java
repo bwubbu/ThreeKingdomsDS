@@ -6,17 +6,17 @@ public class Encryption {
     public Encryption() {
     }
 
-    public String encrypt(String str, int shiftKey, char space) {
+    public String encrypt(String Text, int shiftKey, char space) {
         String cipherText = "";
         int charPosition=0;
-        for (int i = 0; i < str.length(); i++) {
-            char currentChar = str.charAt(i);
+        for (int i = 0; i < Text.length(); i++) {
+            char currentChar = Text.charAt(i);
             if(currentChar == '('){
                 cipherText += "(";
                 String reverse = "";
                 while(true){
                     i++;
-                    currentChar = str.charAt(i);
+                    currentChar = Text.charAt(i);
                     if(currentChar == ')') {
                         cipherText += reverseString(reverse) + currentChar;
                         break;
@@ -47,16 +47,16 @@ public class Encryption {
         return cipherText;
     }
 
-    public String decrypt(String message, int shiftKey, char space) {
+    public String decrypt(String input, int shiftKey, char space) {
         String cipherText = "";
         int charPosition=0, keyVal;
-        for (int i = 0; i < message.length(); i++) {
-            char currentChar = message.charAt(i);
+        for (int i = 0; i < input.length(); i++) {
+            char currentChar = input.charAt(i);
             if(currentChar == '('){
                 String reverse = "";
                 while(true){
                     i++;
-                    currentChar = message.charAt(i);
+                    currentChar = input.charAt(i);
                     if(currentChar == ')') {
                         cipherText += decrypt(reverseString(reverse), shiftKey, space);
                         break;
@@ -65,7 +65,7 @@ public class Encryption {
                 }
             }
             else if (currentChar == '^') {
-                currentChar = message.charAt(i+1);
+                currentChar = input.charAt(i+1);
                 i++;
                 charPosition = encryptAlphabet.indexOf(currentChar);
                 if(charPosition < shiftKey)
@@ -107,11 +107,11 @@ public class Encryption {
     }
     public static void main(String[] args) {
         Encryption encryption = new Encryption();
-        //Pang Tong sent to us the encrypted message
+        //Pang Tong sent to us the encrypted input
         String encryptText = encryption.encrypt("Advise Cao Cao to use The Chain Strategem, which is to chain his battleships with strong iron chains.", 7, '$');
         System.out.println("Encrypted Text = " + encryptText);
-        //We decrypt the message
-        String decryptText = encryption.decrypt("^iaehms$^pic$^pic$qc$wms$^qgs$^pgihx$^mqniqsfsz,$rghpg$hm$qc$pgihx$ghm$oiqqlsmghvm$rhqg$mqncxf$hncx$pgihxm.", 7, '$');
+        //We decrypt the input
+        String decryptText = encryption.decrypt(encryptText, 7, '$');
         System.out.println("Decrypted Text = "+ decryptText);
 }
 }
