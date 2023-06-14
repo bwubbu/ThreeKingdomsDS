@@ -1,157 +1,147 @@
-
 import java.util.*;
 
-public class  EnemyAttackFortressSimulation2{
-    private Map<Integer, List<Integer>> adjacencyList;
+public class EnemyAttackFortressSimulation2 extends EnemyAttackFortressSimulation {
 
-    public EnemyAttackFortressSimulation2() {
-        adjacencyList = new HashMap<>();
-    }
-
-    public void addEdge(int source, int destination) {
-        List<Integer> neighbors = adjacencyList.getOrDefault(source, new ArrayList<>());
-        neighbors.add(destination);
-        adjacencyList.put(source, neighbors);
-    }
-    public double getTravelTime(int source, int destination, String terrain, String unit) {
-        // Define the speeds for each unit and terrain
-        Map<String, Double> speedMap = new HashMap<>();
-        speedMap.put("Cavalry:flat", 2.0 * 3);
-        speedMap.put("Cavalry:forest", 2.0 * 0.8);
-        speedMap.put("Cavalry:swamp", 2.0 * 0.3);
-        speedMap.put("Cavalry:plank", 2.0 * 0.5);
-        speedMap.put("Archer:flat", 1.0 * 2);
-        speedMap.put("Archer:forest", 1.0 * 1);
-        speedMap.put("Archer:swamp", 1.0 * 2.5);
-        speedMap.put("Archer:plank", 1.0 * 0.5);
-        speedMap.put("Infantry:flat", 1.0 * 2);
-        speedMap.put("Infantry:forest", 1.0 * 2.5);
-        speedMap.put("Infantry:swamp", 1.0 * 1);
-        speedMap.put("Infantry:plank", 1.0 * 0.5);
-
-        // Calculate the travel time based on the unit and terrain
-        double speed = speedMap.get(unit + ":" + terrain);
-        double distance = 1.0; // Assuming all edges have a distance of 1 unit
-        return distance / speed;
-    }
-
-    public List<List<Integer>> breadthFirstSearch(int start, int target, String unit) {
-        Queue<Pair<Integer, List<Integer>>> queue = new LinkedList<>();
-        queue.offer(new Pair<>(start, new ArrayList<>(Collections.singletonList(start))));
-
-        List<List<Integer>> paths = new ArrayList<>();
-        double shortestTravelTime = Double.MAX_VALUE; // Variable to track the shortest travel time
-
-        while (!queue.isEmpty()) {
-            Pair<Integer, List<Integer>> current = queue.poll();
-            int node = current.getKey();
-            List<Integer> path = current.getValue();
-
-            if (node == target) {
-                paths.add(path);
-                double travelTime = calculateTravelTime(path, unit); // Calculate the travel time for the path
-                shortestTravelTime = Math.min(shortestTravelTime, travelTime); // Update the shortest travel time
-            }
-
-            if (calculateTravelTime(path, unit) > shortestTravelTime) {
-                // Skip exploring paths longer than the current shortest travel time
-                continue;
-            }
-
-            List<Integer> neighbors = adjacencyList.getOrDefault(node, new ArrayList<>());
-            for (int neighbor : neighbors) {
-                if (!path.contains(neighbor)) {
-                    List<Integer> newPath = new ArrayList<>(path);
-                    newPath.add(neighbor);
-                    queue.offer(new Pair<>(neighbor, newPath));
-                }
-            }
-        }
-
-        return paths;
-    }
-
-    private double calculateTravelTime(List<Integer> path, String unit) {
+    public double calculateTravelTime(List<Integer> path, String unit) {
         double travelTime = 0.0;
+
         for (int i = 0; i < path.size() - 1; i++) {
             int source = path.get(i);
             int destination = path.get(i + 1);
+
             String terrain = getTerrain(source, destination);
-            travelTime += getTravelTime(source, destination, terrain, unit);
+            double distance = getDistance(source, destination);
+
+            travelTime += calculateTime(distance, unit, terrain);
         }
+
         return travelTime;
     }
 
     private String getTerrain(int source, int destination) {
-        if ((source == 1 && destination == 2) || (source == 5 && destination == 7) || (source == 6 && destination == 7) || (source == 8 && destination == 10))
-            return "forest";
-        else if ((source == 2 && destination == 4) || (source == 3 && destination == 4) || (source == 4 && destination == 5) || (source == 8 && destination == 9))
-            return "swamp";
-        else if ((source == 3 && destination == 7) || (source == 6 && destination == 8))
-            return "plank";
-        else
-            return "flat";
+        // Define the terrain for each edge based on the given geographical conditions
+        Map<String, List<String>> terrainMap = new HashMap<>();
+        terrainMap.put("1:2", Collections.singletonList("flat"));
+        terrainMap.put("1:3", Collections.singletonList("flat"));
+        terrainMap.put("1:6", Collections.singletonList("flat"));
+        terrainMap.put("1:10", Collections.singletonList("flat"));
+        terrainMap.put("2:1", Collections.singletonList("forest"));
+        terrainMap.put("2:4", Collections.singletonList("swamp"));
+        terrainMap.put("3:1", Collections.singletonList("forest"));
+        terrainMap.put("3:4", Collections.singletonList("swamp"));
+        terrainMap.put("3:7", Collections.singletonList("plank"));
+        terrainMap.put("4:2", Collections.singletonList("swamp"));
+        terrainMap.put("4:3", Collections.singletonList("swamp"));
+        terrainMap.put("4:5", Collections.singletonList("swamp"));
+        terrainMap.put("5:4", Collections.singletonList("swamp"));
+        terrainMap.put("5:6", Collections.singletonList("flat"));
+        terrainMap.put("5:7", Collections.singletonList("flat"));
+        terrainMap.put("6:1", Collections.singletonList("flat"));
+        terrainMap.put("6:5", Collections.singletonList("flat"));
+        terrainMap.put("6:7", Collections.singletonList("flat"));
+        terrainMap.put("6:8", Collections.singletonList("flat"));
+        terrainMap.put("7:5", Collections.singletonList("flat"));
+        terrainMap.put("7:6", Collections.singletonList("flat"));
+        terrainMap.put("7:8", Collections.singletonList("flat"));
+        terrainMap.put("7:9", Collections.singletonList("flat"));
+        terrainMap.put("8:6", Collections.singletonList("flat"));
+        terrainMap.put("8:7", Collections.singletonList("flat"));
+        terrainMap.put("8:9", Collections.singletonList("flat"));
+        terrainMap.put("8:10", Collections.singletonList("flat"));
+        terrainMap.put("9:7", Collections.singletonList("flat"));
+        terrainMap.put("9:8", Collections.singletonList("flat"));
+        terrainMap.put("9:10", Collections.singletonList("flat"));
+        terrainMap.put("10:1", Collections.singletonList("flat"));
+        terrainMap.put("10:8", Collections.singletonList("flat"));
+        terrainMap.put("10:9", Collections.singletonList("flat"));
+
+        String key = source + ":" + destination;
+        return terrainMap.getOrDefault(key, Collections.singletonList("flat")).get(0);
+    }
+
+    private double getDistance(int source, int destination) {
+        // Define the distance between nodes based on the given geographical conditions
+        Map<String, Double> distanceMap = new HashMap<>();
+        distanceMap.put("1:2", 10.0);
+        distanceMap.put("1:3", 18.0);
+        distanceMap.put("1:6", 20.0);
+        distanceMap.put("1:10", 16.0);
+        distanceMap.put("2:1", 10.0);
+        distanceMap.put("2:4", 10.0);
+        distanceMap.put("3:1", 18.0);
+        distanceMap.put("3:4", 12.0);
+        distanceMap.put("3:7", 28.0);
+        distanceMap.put("4:2", 10.0);
+        distanceMap.put("4:3", 12.0);
+        distanceMap.put("4:5", 12.0);
+        distanceMap.put("5:4", 12.0);
+        distanceMap.put("5:6", 17.0);
+        distanceMap.put("5:7", 10.0);
+        distanceMap.put("6:1", 20.0);
+        distanceMap.put("6:5", 17.0);
+        distanceMap.put("6:7", 23.0);
+        distanceMap.put("6:8", 35.0);
+        distanceMap.put("7:5", 10.0);
+        distanceMap.put("7:6", 23.0);
+        distanceMap.put("7:8", 19.0);
+        distanceMap.put("7:9", 17.0);
+        distanceMap.put("8:6", 35.0);
+        distanceMap.put("8:7", 19.0);
+        distanceMap.put("8:9", 7.0);
+        distanceMap.put("8:10", 12.0);
+        distanceMap.put("9:7", 17.0);
+        distanceMap.put("9:8", 7.0);
+        distanceMap.put("9:10", 18.0);
+        distanceMap.put("10:1", 16.0);
+        distanceMap.put("10:8", 12.0);
+        distanceMap.put("10:9", 18.0);
+
+        String key = source + ":" + destination;
+        return distanceMap.getOrDefault(key, Double.MAX_VALUE);
+    }
+
+    public double calculateTime(double distance, String unit, String terrain) {
+        double speed = switch (unit) {
+            case "Cavalry" -> 2.0;
+            case "Archer" -> 1.0;
+            case "Infantry" -> 1.0;
+            default -> 1.0;
+        };
+
+        double terrainFactor = switch (terrain) {
+            case "flat" -> 1.0;
+            case "forest" -> 0.8;
+            case "swamp" -> 0.3;
+            case "plank" -> 0.5;
+            default -> 1.0;
+        };
+
+        return distance / (speed * terrainFactor);
     }
 
     public static void main(String[] args) {
         System.out.println("Enter the base camp for the enemy base camp: ");
         EnemyAttackFortressSimulation2 graph = new EnemyAttackFortressSimulation2();
-
-        // Adding edges to the graph
-        graph.addEdge(1, 2);
-        graph.addEdge(1, 3);
-        graph.addEdge(1, 6);
-        graph.addEdge(1, 10);
-        graph.addEdge(2, 1);
-        graph.addEdge(2, 4);
-        graph.addEdge(3, 1);
-        graph.addEdge(3, 4);
-        graph.addEdge(3, 7);
-        graph.addEdge(4, 2);
-        graph.addEdge(4, 3);
-        graph.addEdge(4, 5);
-        graph.addEdge(5, 4);
-        graph.addEdge(5, 6);
-        graph.addEdge(5, 7);
-        graph.addEdge(6, 1);
-        graph.addEdge(6, 5);
-        graph.addEdge(6, 7);
-        graph.addEdge(6, 8);
-        graph.addEdge(7, 5);
-        graph.addEdge(7, 6);
-        graph.addEdge(7, 8);
-        graph.addEdge(7, 9);
-        graph.addEdge(8, 6);
-        graph.addEdge(8, 7);
-        graph.addEdge(8, 9);
-        graph.addEdge(8, 10);
-        graph.addEdge(9, 7);
-        graph.addEdge(9, 8);
-        graph.addEdge(9, 10);
-        graph.addEdge(10, 1);
-        graph.addEdge(10, 8);
-        graph.addEdge(10, 9);
+        graph.addEdgesToGraph();
 
         Scanner scanner = new Scanner(System.in);
         int enemyBaseCamp = scanner.nextInt();
 
-        List<List<Integer>> paths = graph.breadthFirstSearch(1, enemyBaseCamp, "Cavalry"); // Modify the unit type here
+        List<List<Integer>> paths = graph.breadthFirstSearch(1, enemyBaseCamp);
 
-        double shortestTravelTime = Double.MAX_VALUE;
+        int shortestPathLength = Integer.MAX_VALUE;
         List<List<Integer>> shortestPaths = new ArrayList<>();
 
-        // Find the shortest travel time
+        // Find the shortest path length
         for (List<Integer> path : paths) {
-            double travelTime = graph.calculateTravelTime(path, "Cavalry"); // Modify the unit type here
-            if (travelTime < shortestTravelTime) {
-                shortestTravelTime = travelTime;
+            if (path.size() < shortestPathLength) {
+                shortestPathLength = path.size();
             }
         }
 
-        // Filter out paths that have the shortest travel time
+        // Filter out paths that are not the shortest path
         for (List<Integer> path : paths) {
-            double travelTime = graph.calculateTravelTime(path, "Cavalry"); // Modify the unit type here
-            if (travelTime == shortestTravelTime) {
+            if (path.size() == shortestPathLength) {
                 shortestPaths.add(path);
             }
         }
@@ -164,7 +154,17 @@ public class  EnemyAttackFortressSimulation2{
             for (int i = 1; i < path.size(); i++) {
                 sb.append(" -> ").append(path.get(i));
             }
-            System.out.println(sb.toString());
+            System.out.println(sb);
+        }
+
+        System.out.println("Enter the unit type (Cavalry/Archer/Infantry): ");
+        String unit = scanner.next();
+
+        // Calculate and display the travel time for each shortest path
+        System.out.println("Travel times:");
+        for (List<Integer> path : shortestPaths) {
+            double travelTime = graph.calculateTravelTime(path, unit);
+            System.out.println(path + " - " + travelTime + " hours");
         }
     }
 }

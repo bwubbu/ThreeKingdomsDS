@@ -2,9 +2,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class FoodHarvesting {
-    private int numNodes;
-    private List<Integer>[] adjacencyList;
+public class FoodHarvesting extends EnemyAttackFortressSimulation{
+    private final int numNodes;
+    private final List<Integer>[] adjacencyList;
+    private boolean[] visited;
 
     public FoodHarvesting(int numNodes) {
         this.numNodes = numNodes;
@@ -12,6 +13,7 @@ public class FoodHarvesting {
         for (int i = 1; i <= numNodes; i++) {
             adjacencyList[i] = new ArrayList<>();
         }
+        visited = new boolean[numNodes + 1]; // Initialize the visited array
     }
 
     public void addEdge(int from, int to) {
@@ -19,45 +21,32 @@ public class FoodHarvesting {
         adjacencyList[to].add(from);
     }
 
-    public List<Integer> findPath(int noFoodNode) {
-        List<Integer> path = new ArrayList<>();
-        boolean[] visited = new boolean[numNodes + 1];
-
-        // Start the search from Node 1
-        dfs(1, noFoodNode, visited, path);
-
-        // Add Node 1 to complete the cycle
-        path.add(1);
-
-        return path;
-    }
-
-    private boolean dfs(int currentNode, int noFoodNode, boolean[] visited, List<Integer> path) {
+    private boolean DFS(int currentNode, List<Integer> noFoodNodes, List<Integer> path, boolean includeNoFoodNode) {
         visited[currentNode] = true;
         path.add(currentNode);
 
-        // Check if all nodes have been visited (except the noFoodNode)
+        // Check if all nodes have been visited (excluding the noFoodNodes)
         boolean allVisited = true;
         for (int i = 2; i <= numNodes; i++) {
-            if (i != noFoodNode && !visited[i]) {
+            if (!noFoodNodes.contains(i) && !visited[i]) {
                 allVisited = false;
                 break;
             }
         }
 
-        // If all nodes have been visited (except noFoodNode), return true to complete the cycle
+        // If all nodes have been visited (excluding noFoodNodes), return true to complete the cycle
         if (allVisited) {
             return true;
         }
 
         for (int neighbor : adjacencyList[currentNode]) {
             if (!visited[neighbor]) {
-                // If the neighbor is the noFoodNode, skip it
-                if (neighbor == noFoodNode) {
+                // Skip the neighbor if it is one of the noFoodNodes (unless it is essential for connectivity)
+                if (noFoodNodes.contains(neighbor) && !includeNoFoodNode) {
                     continue;
                 }
 
-                if (dfs(neighbor, noFoodNode, visited, path)) {
+                if (DFS(neighbor, noFoodNodes, path, includeNoFoodNode)) {
                     return true;
                 }
             }
@@ -69,31 +58,38 @@ public class FoodHarvesting {
         return false;
     }
 
+    public List<Integer> findPath(List<Integer> noFoodNodes) {
+        List<Integer> path = new ArrayList<>();
+
+        // Start the search from Node 1 without including any node with no food
+        boolean pathFound = DFS(1, noFoodNodes, path, false);
+
+        // If a path is not found without including any node with no food, try again including the node(s) with no food
+        if (!pathFound && noFoodNodes.size() > 0) {
+            visited = new boolean[numNodes + 1]; // Reset visited array
+            path.clear(); // Clear the path
+            pathFound = DFS(1, noFoodNodes, path, true);
+        }
+
+        // Add Node 1 to complete the cycle
+        path.add(1);
+
+        return pathFound ? path : new ArrayList<>(); // Return an empty list if a path is not found
+    }
+
     public static void main(String[] args) {
         FoodHarvesting graph = new FoodHarvesting(10);
-        graph.addEdge(1, 2);
-        graph.addEdge(1, 3);
-        graph.addEdge(1, 6);
-        graph.addEdge(1, 10);
-        graph.addEdge(2, 4);
-        graph.addEdge(3, 4);
-        graph.addEdge(3, 7);
-        graph.addEdge(4, 5);
-        graph.addEdge(5, 6);
-        graph.addEdge(5, 7);
-        graph.addEdge(6, 7);
-        graph.addEdge(6, 8);
-        graph.addEdge(7, 8);
-        graph.addEdge(7, 9);
-        graph.addEdge(8, 9);
-        graph.addEdge(8, 10);
-        graph.addEdge(9, 10);
+        graph.addEdgesToGraph();
         
-        System.out.println("Node with no foods:");
+        System.out.println("Nodes with no food (enter '0' to finish):");
         Scanner scanner = new Scanner(System.in);
-        int noFoodNode = scanner.nextInt();
+        List<Integer> noFoodNodes = new ArrayList<>();
+        int noFoodNode;
+        while ((noFoodNode = scanner.nextInt()) != 0) {
+            noFoodNodes.add(noFoodNode);
+        }
 
-        List<Integer> path = graph.findPath(noFoodNode);
+        List<Integer> path = graph.findPath(noFoodNodes);
 
         // Example output
         System.out.println("Path:");
