@@ -2,7 +2,6 @@ import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -13,9 +12,6 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
-import javax.swing.JFrame;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 public class GeneralHierarchy extends JFrame {
     private JTextArea outputTextArea;
 
@@ -44,18 +40,57 @@ public class GeneralHierarchy extends JFrame {
 
         // Call the method to run the code and display the output
         displayOutput();
-
-
     }
-
         private void displayOutput() {
         // Redirect the console output to the JTextArea
-            playMp3("C:\\Users\\user\\IdeaProjects\\ThreeKingdomsDS\\src\\song.mp3");
         TextAreaOutputStream textOutputStream = new TextAreaOutputStream(outputTextArea);
         System.setOut(new PrintStream(textOutputStream));
 
         // The code from the original main method
 
+            // Create the main frame
+            JFrame frame = new JFrame("Three Kingdoms: Battle of Red Cliff");
+            frame.setPreferredSize(new Dimension(800, 400)); // Set the preferred size
+
+            // Create the main panel
+            JPanel mainPanel = new JPanel();
+            mainPanel.setLayout(new BorderLayout());
+
+            // Create the title label
+            JLabel titleLabel = new JLabel("THREE KINGDOMS: BATTLE OF RED CLIFF");
+            titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+            titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            mainPanel.add(titleLabel, BorderLayout.NORTH);
+
+            // Create the subtitle label
+            JLabel subtitleLabel = new JLabel("CHARACTERS");
+            subtitleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+            subtitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            mainPanel.add(subtitleLabel, BorderLayout.CENTER);
+
+            // Create the start button
+            JButton startButton = new JButton("Start");
+            startButton.setFont(new Font("Arial", Font.BOLD, 16));
+            startButton.addActionListener(e -> {
+
+                displayCharacters(frame);
+
+                frame.dispose();
+            });
+            mainPanel.add(startButton, BorderLayout.SOUTH);
+
+            ImageIcon imageIcon = new ImageIcon("C:\\Users\\user\\IdeaProjects\\ThreeKingdomsDS\\src\\Characters\\mainMenu.png");
+            JLabel imageLabel = new JLabel(imageIcon);
+            mainPanel.add(imageLabel, BorderLayout.CENTER);
+            // Add the main panel to the frame
+            frame.getContentPane().add(mainPanel);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.pack();
+            frame.setLocationRelativeTo(null); // Center the frame
+            frame.setVisible(true);
+            playMp3("C:\\Users\\user\\IdeaProjects\\ThreeKingdomsDS\\src\\song.mp3");
+        }
+    private void displayCharacters(JFrame frame) {
         General sunWu = new General("Sun Quan", "sunWu.png","Emperor", "Cavalry", 96, 98, 72, 77, 95);
         WuKingdomNode sunWuN = new WuKingdomNode(sunWu);
 
@@ -164,10 +199,10 @@ public class GeneralHierarchy extends JFrame {
         System.out.println("\nIntelligence Team:");
         displayTeam(intelligenceTeam);
 
-            JFrame frame = new JFrame("Generals");
+            JFrame frame2 = new JFrame("Generals");
 
 
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             JPanel contentPanel = new JPanel();
             contentPanel.setLayout(new GridLayout(generals.size(), 6));
@@ -204,9 +239,10 @@ public class GeneralHierarchy extends JFrame {
             JScrollPane scrollPane = new JScrollPane(contentPanel);
             scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-            frame.add(scrollPane, BorderLayout.CENTER);
-            frame.pack();
-            frame.setVisible(true);
+            frame2.setLocationRelativeTo(null); // Center the frame
+            frame2.add(scrollPane, BorderLayout.CENTER);
+            frame2.pack();
+            frame2.setVisible(true);
         }
 
     private void playMp3(String filePath) {
