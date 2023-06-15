@@ -3,35 +3,42 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EnemyAttackController">
+<AnchorPane prefHeight="704.0" prefWidth="624.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EnemyAttackController">
    <children>
-      <TextField fx:id="myTextField" layoutX="61.0" layoutY="199.0" prefHeight="47.0" prefWidth="354.0" promptText="Enter number 1-10">
+      <TextField fx:id="myTextField" layoutX="62.0" layoutY="484.0" prefHeight="47.0" prefWidth="365.0" promptText="Enter number 1-10">
          <font>
             <Font size="18.0" />
          </font>
       </TextField>
-      <Label alignment="CENTER" layoutX="39.0" layoutY="128.0" prefHeight="47.0" prefWidth="521.0" text="Enter the base camp for the enemy base camp:" textAlignment="CENTER">
+      <Label alignment="CENTER" layoutX="48.0" layoutY="442.0" prefHeight="47.0" prefWidth="521.0" text="Enter the base camp for the enemy base camp:" textAlignment="CENTER">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" ellipsisString="" layoutX="67.0" layoutY="28.0" text="-Enemy Attack Fortress Simulation-">
+      <Label alignment="CENTER" contentDisplay="CENTER" ellipsisString="" layoutX="79.0" layoutY="14.0" text="-Enemy Attack Fortress Simulation-">
          <font>
             <Font size="30.0" />
          </font>
       </Label>
-      <Button fx:id="myButton" layoutX="430.0" layoutY="199.0" mnemonicParsing="false" onAction="#enter" prefHeight="47.0" prefWidth="111.0" text="Enter">
+      <Button fx:id="myButton" layoutX="443.0" layoutY="484.0" mnemonicParsing="false" onAction="#enter" prefHeight="47.0" prefWidth="111.0" text="Enter">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Label fx:id="myLabel" alignment="TOP_LEFT" layoutX="61.0" layoutY="255.0" prefHeight="138.0" prefWidth="354.0">
+      <Label fx:id="myLabel" alignment="TOP_LEFT" layoutX="62.0" layoutY="538.0" prefHeight="138.0" prefWidth="366.0">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
+      <ImageView fx:id="myImageView" fitHeight="386.0" fitWidth="528.0" layoutX="48.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Fortress%20Map.jpg" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
