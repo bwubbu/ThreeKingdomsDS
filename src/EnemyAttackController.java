@@ -3,6 +3,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 
 public class EnemyAttackController {
 
@@ -12,7 +13,8 @@ public class EnemyAttackController {
     private TextField myTextField;
     @FXML
     private Button myButton;
-
+    @FXML
+    private ImageView myImageView;
     int base;
 
     public void enter(ActionEvent event) {
@@ -22,7 +24,7 @@ public class EnemyAttackController {
             System.out.println(base);
 
             if(base<1 || base > 10) {
-                myLabel.setText("Enter base number 1-10.");
+                myLabel.setText("Invalid: Enter base number 1-10.");
             }
             else {
                 if(base==1) {
@@ -58,11 +60,11 @@ public class EnemyAttackController {
             }
         }
         catch (NumberFormatException e) {
-            myLabel.setText("Enter only numbers please.");
+            myLabel.setText("Invalid: Enter only numbers please.");
         }
 
         catch (Exception e) {
-            myLabel.setText("error");
+            myLabel.setText("Error");
         }
     }
 
