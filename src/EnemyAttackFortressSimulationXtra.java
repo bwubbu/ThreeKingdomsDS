@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class EnemyAttackFortressSimulation2 extends EnemyAttackFortressSimulation {
+public class EnemyAttackFortressSimulationXtra extends EnemyAttackFortressSimulation {
 
     public double calculateTravelTime(List<Integer> path, String unit) {
         double travelTime = 0.0;
@@ -121,13 +121,13 @@ public class EnemyAttackFortressSimulation2 extends EnemyAttackFortressSimulatio
 
     public static void main(String[] args) {
         System.out.println("Enter the base camp for the enemy base camp: ");
-        EnemyAttackFortressSimulation2 graph = new EnemyAttackFortressSimulation2();
+        EnemyAttackFortressSimulationXtra graph = new EnemyAttackFortressSimulationXtra();
         graph.addEdgesToGraph();
 
         Scanner scanner = new Scanner(System.in);
         int enemyBaseCamp = scanner.nextInt();
 
-        List<List<Integer>> paths = graph.breadthFirstSearch(1, enemyBaseCamp);
+        List<List<Integer>> paths = BFS(1, enemyBaseCamp);
 
         int shortestPathLength = Integer.MAX_VALUE;
         List<List<Integer>> shortestPaths = new ArrayList<>();
