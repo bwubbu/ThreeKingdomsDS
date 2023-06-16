@@ -1,23 +1,6 @@
 import java.util.*;
-/*
 
 public class EnemyAttackFortressSimulationXtra extends EnemyAttackFortressSimulation {
-
-    public double calculateTravelTime(List<Integer> path, String unit) {
-        double travelTime = 0.0;
-
-        for (int i = 0; i < path.size() - 1; i++) {
-            int source = path.get(i);
-            int destination = path.get(i + 1);
-
-            String terrain = getTerrain(source, destination);
-            double distance = getDistance(source, destination);
-
-            travelTime += calculateTime(distance, unit, terrain);
-        }
-
-        return travelTime;
-    }
 
     private String getTerrain(int source, int destination) {
         // Define the terrain for each edge based on the given geographical conditions
@@ -100,25 +83,66 @@ public class EnemyAttackFortressSimulationXtra extends EnemyAttackFortressSimula
         String key = source + ":" + destination;
         return distanceMap.getOrDefault(key, Double.MAX_VALUE);
     }
+    public double calculateTravelTime(List<Integer> path, String unit) {
+        double travelTime = 0.0;
 
+        for (int i = 0; i < path.size() - 1; i++) {
+            int source = path.get(i);
+            int destination = path.get(i + 1);
+
+            String terrain = getTerrain(source, destination);
+            double distance = getDistance(source, destination);
+
+            travelTime += calculateTime(distance, unit, terrain);
+        }
+
+        return travelTime;
+    }
     public double calculateTime(double distance, String unit, String terrain) {
-        double speed = switch (unit) {
-            case "Cavalry" -> 2.0;
-            case "Archer" -> 1.0;
-            case "Infantry" -> 1.0;
-            default -> 1.0;
-        };
+        double speed;
+        double terrainFactor;
 
-        double terrainFactor = switch (terrain) {
-            case "flat" -> 1.0;
-            case "forest" -> 0.8;
-            case "swamp" -> 0.3;
-            case "plank" -> 0.5;
-            default -> 1.0;
-        };
+        switch (unit) {
+            case "Cavalry" -> {
+                speed = 2.0;
+                terrainFactor = switch (terrain) {
+                    case "flat" -> 3.0;
+                    case "forest" -> 0.8;
+                    case "swamp" -> 0.3;
+                    case "plank" -> 0.5;
+                    default -> 1.0;
+                };
+            }
+            case "Archer" -> {
+                speed = 1.0;
+                terrainFactor = switch (terrain) {
+                    case "flat" -> 2.0;
+                    case "forest" -> 1.0;
+                    case "swamp" -> 2.5;
+                    case "plank" -> 0.5;
+                    default -> 1.0;
+                };
+            }
+            case "Infantry" -> {
+                speed = 1.0;
+                terrainFactor = switch (terrain) {
+                    case "flat" -> 2.0;
+                    case "forest" -> 2.5;
+                    case "swamp" -> 1.0;
+                    case "plank" -> 0.5;
+                    default -> 1.0;
+                };
+            }
+            default -> {
+                speed = 1.0;
+                terrainFactor = 1.0;
+            }
+        }
 
         return distance / (speed * terrainFactor);
     }
+
+
 
     public static void main(String[] args) {
         System.out.println("Enter the base camp for the enemy base camp: ");
@@ -128,35 +152,35 @@ public class EnemyAttackFortressSimulationXtra extends EnemyAttackFortressSimula
         Scanner scanner = new Scanner(System.in);
         int enemyBaseCamp = scanner.nextInt();
 
-        System.out.println("Enter the unit type (Cavalry/Archer/Infantry): ");
-        String unit = scanner.next();
-
         List<List<Integer>> paths = BFS(1, enemyBaseCamp);
 
-        double shortestTravelTime = Double.MAX_VALUE;
-        List<Integer> bestPath = null;
+        String[] units = {"Cavalry", "Archer", "Infantry"};
 
-        // Find the path with the minimum travel time
-        for (List<Integer> path : paths) {
-            double travelTime = graph.calculateTravelTime(path, unit);
-            if (travelTime < shortestTravelTime) {
-                shortestTravelTime = travelTime;
-                bestPath = path;
+        // Find the best path for each unit type
+        for (String unit : units) {
+            double shortestTravelTime = Double.MAX_VALUE;
+            List<Integer> bestPath = null;
+
+            for (List<Integer> path : paths) {
+                double travelTime = graph.calculateTravelTime(path, unit);
+                if (travelTime < shortestTravelTime) {
+                    shortestTravelTime = travelTime;
+                    bestPath = path;
+                }
             }
-        }
 
-        // Display the best path
-        System.out.println("Best path:");
-        StringBuilder sb = new StringBuilder();
-        sb.append("1");
-        for (int i = 1; i < bestPath.size(); i++) {
-            sb.append(" -> ").append(bestPath.get(i));
+            // Display the best path for the current unit type
+            System.out.println("Best path for " + unit + ":");
+            StringBuilder sb = new StringBuilder();
+            sb.append("1");
+            for (int i = 1; i < bestPath.size(); i++) {
+                sb.append(" -> ").append(bestPath.get(i));
+            }
+            System.out.println(sb);
+            System.out.println("Travel time: " + shortestTravelTime + " hours");
+            System.out.println();
         }
-        System.out.println(sb);
-
-        // Calculate and display the travel time for the best path
-        System.out.println("Travel time: " + shortestTravelTime + " hours");
     }
+
 }
 
-*/
