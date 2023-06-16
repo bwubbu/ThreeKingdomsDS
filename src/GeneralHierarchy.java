@@ -14,87 +14,90 @@ import javax.swing.*;
 import java.awt.image.BufferedImage;
 public class GeneralHierarchy extends JFrame {
     private final JTextArea outputTextArea;
-        private void displayOutput() {
 
+    private JPanel mainPanel;
+    private void displayOutput() {
         // Redirect the console output to the JTextArea
         TextAreaOutputStream textOutputStream = new TextAreaOutputStream(outputTextArea);
         System.setOut(new PrintStream(textOutputStream));
 
-            // Create the main frame
-            JFrame mainFrame = new JFrame("Three Kingdoms: Battle of Red Cliff");
-            mainFrame.setPreferredSize(new Dimension(800, 600)); // Set the preferred size
+        // Create the main frame
+        JFrame mainFrame = new JFrame("Three Kingdoms: Battle of Red Cliff");
+        mainFrame.setPreferredSize(new Dimension(700, 500)); // Set the preferred size
 
-            // Create the main panel
-            JPanel mainPanel = new JPanel();
-            mainPanel.setLayout(new BorderLayout());
+        // Create the main panel
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
 
-            // Create the title label
-            JLabel titleLabel = new JLabel("THREE KINGDOMS: BATTLE OF RED CLIFF");
-            titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-            titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            mainPanel.add(titleLabel, BorderLayout.NORTH);
+        // Create the title label
+        JLabel titleLabel = new JLabel("THREE KINGDOMS: BATTLE OF RED CLIFF");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        mainPanel.add(titleLabel, BorderLayout.NORTH);
 
-            // Create the subtitle label
-            JLabel subtitleLabel = new JLabel("CHARACTERS");
-            subtitleLabel.setFont(new Font("Arial", Font.BOLD, 18));
-            subtitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            mainPanel.add(subtitleLabel, BorderLayout.CENTER);
+        // Create the subtitle label
+        JLabel subtitleLabel = new JLabel("CHARACTERS");
+        subtitleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        subtitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        mainPanel.add(subtitleLabel, BorderLayout.CENTER);
 
-            // Create the start button
-            JButton startButton = new JButton("Start");
-            startButton.setFont(new Font("Arial", Font.BOLD, 16));
-            startButton.addActionListener(e -> {
+        // Create the button panel
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout());
 
-                displayCharacters(mainFrame);
+        // Create the displayEmperor button
+        JButton displayEmperorButton = new JButton("Display Emperor");
+        displayEmperorButton.setFont(new Font("Arial", Font.BOLD, 16));
+        displayEmperorButton.addActionListener(e -> {
+            displayEmperor(mainFrame);
 
-                mainFrame.dispose();
-            });
-            mainPanel.add(startButton, BorderLayout.SOUTH);
+            mainFrame.dispose();
+        });
+        buttonPanel.add(displayEmperorButton);
 
-            ImageIcon imageIcon = new ImageIcon("C:\\Users\\user\\IdeaProjects\\ThreeKingdomsDS\\src\\Characters\\mainMenu.png");
-            JLabel imageLabel = new JLabel(imageIcon);
-            mainPanel.add(imageLabel, BorderLayout.CENTER);
-            // Add the main panel to the frame
-            mainFrame.getContentPane().add(mainPanel);
-            mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            mainFrame.pack();
-            mainFrame.setLocationRelativeTo(null); // Center the frame
-            mainFrame.setVisible(true);
-            playMp3();
-        }
-    private void displayCharacters(JFrame mainFrame) {
-        General sunWu = new General("Sun Quan", "sunWu.png", "Emperor", "Cavalry", 96, 98, 72, 77, 95);
-        WuKingdomNode sunWuN = new WuKingdomNode(sunWu);
+        // Create the displayChiefs button
+        JButton displayChiefsButton = new JButton("Display Chiefs");
+        displayChiefsButton.setFont(new Font("Arial", Font.BOLD, 16));
+        displayChiefsButton.addActionListener(e -> {
+            displayChiefs(mainFrame);
 
-        General zhouYu = new General("Zhou Yu", "zhouYu.png", "Chief of Military", "Cavalry", 80, 86, 97, 80, 90);
-        WuKingdomNode zhouYuN = new WuKingdomNode(zhouYu);
+            mainFrame.dispose();
+        });
+        buttonPanel.add(displayChiefsButton);
 
-        General zhangZhao = new General("Zhang Zhao", "zhangZhao.png", "Chief of Management", "Archer", 22, 80, 89, 99, 60);
-        WuKingdomNode zhangZhaoN = new WuKingdomNode(zhangZhao);
+        // Create the displayGenerals button
+        JButton displayGeneralsButton = new JButton("Display Generals");
+        displayGeneralsButton.setFont(new Font("Arial", Font.BOLD, 16));
+        displayGeneralsButton.addActionListener(e -> {
+            displayGenerals(mainFrame);
 
-        sunWuN.addChild(zhouYuN);
-        sunWuN.addChild(zhangZhaoN);
+            mainFrame.dispose();
+        });
+        buttonPanel.add(displayGeneralsButton);
 
-        General xuSheng = new General("Xu Sheng", "xuSheng.png", "General", "Archer", 90, 78, 72, 40, 94);
-        General zhuGeJin = new General("Zu Ge Jin", "zhuGeJin.png", "General", "Archer", 63, 61, 88, 82, 71);
-        General luSu = new General("Lu Su", "luSu.png", "General", "Infantry", 43, 87, 84, 88, 53);
-        General taiShiCi = new General("Tai Shi Ci", "taiShiCi.png", "General", "Cavalry", 96, 81, 43, 33, 97);
-        General xiaoQiao = new General("Xiao Qiao", "xiaoQiao.png", "General", "Infantry", 42, 52, 89, 77, 34);
-        General daQiao = new General("Da Qiao", "daQiao.png", "General", "Cavalry", 39, 62, 90, 62, 41);
-        General zhouTai = new General("Zhou Tai", "zhouTai.png", "General", "Infantry", 92, 89, 72, 43, 99);
-        General ganNing = new General("Gan Ning", "ganNing.png", "General", "Archer", 98, 92, 45, 23, 97);
-        General luMeng = new General("Lu Meng", "luMeng.png", "General", "Cavalry", 70, 77, 93, 83, 88);
-        General huangGai = new General("Huang Gai", "huangGai.png", "General", "Infantry", 83, 98, 72, 42, 89);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        ImageIcon imageIcon = new ImageIcon("C:\\Users\\user\\IdeaProjects\\ThreeKingdomsDS\\src\\Characters\\mainMenu.png");
+        JLabel imageLabel = new JLabel(imageIcon);
+        mainPanel.add(imageLabel, BorderLayout.CENTER);
+
+        // Add the main panel to the frame
+        mainFrame.getContentPane().add(mainPanel);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.pack();
+        mainFrame.setLocationRelativeTo(null); // Center the frame
+        mainFrame.setVisible(true);
+        playMp3();
+    }
+    private void displayEmperor(JFrame mainFrame) {
+        General sunWu = new General("Sun Wu", "sunWu.png", "Emperor", "Cavalry", 96, 98, 72, 77, 95);
 
         ArrayList<General> chiefs = new ArrayList<>();
         chiefs.add(sunWu);
-        chiefs.add(zhouYu);
-        chiefs.add(zhangZhao);
 
         for (General chief : chiefs) {
             WuKingdomNode chiefNode = new WuKingdomNode(chief);
             int totalAbility = chief.getTotalAbility();
-
             if (totalAbility >= 250) {
                 chief.setAbilityLevel("S");
             } else if (totalAbility >= 220) {
@@ -106,8 +109,76 @@ public class GeneralHierarchy extends JFrame {
             }
         }
 
-        JFrame chiefFrame = new JFrame("Chiefs");
-        chiefFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JFrame emperorFrame = new JFrame("Emperor");
+        emperorFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        emperorFrame.setPreferredSize(new Dimension(700, 500)); // Set the preferred size
+
+        JPanel emperorContentPanel = new JPanel();
+        emperorContentPanel.setLayout(new GridLayout(chiefs.size(), 6));
+
+        for (General chief : chiefs) {
+            String imageFileName = "C:\\Users\\user\\IdeaProjects\\ThreeKingdomsDS\\src\\Characters\\" + chief.getImageFileName();
+            try {
+                BufferedImage image = ImageIO.read(new File(imageFileName));
+                ImageIcon icon = new ImageIcon(image);
+                JLabel imageLabel = new JLabel(icon);
+                emperorContentPanel.add(imageLabel);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String chiefInfo = "Name: " + chief.getName() +
+                    "\nArmy Type: " + chief.getArmyType() +
+                    "\nRole: " + chief.getDepartment() +
+                    "\nPolitic: " + chief.getPolitic() +
+                    "\nLeadership: " + chief.getLeadership() +
+                    "\nStrength: " + chief.getStrength() +
+                    "\nIntelligence: " + chief.getIntelligence() +
+                    "\nHit Point: " + chief.getHitPoint() +
+                    "\nTotal Ability: " + chief.getTotalAbility() +
+                    "\nAbility Level: " + chief.getAbilityLevel();
+            JTextArea textArea = new JTextArea(chiefInfo);
+            textArea.setEditable(false);
+            emperorContentPanel.add(textArea);
+        }
+        JScrollPane chiefScrollPane = new JScrollPane(emperorContentPanel);
+        chiefScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        emperorFrame.add(chiefScrollPane, BorderLayout.CENTER);
+        emperorFrame.setLocationRelativeTo(mainFrame); // Center the frame
+        emperorFrame.pack();
+        emperorFrame.setVisible(true);
+
+        JButton backButton = new JButton("Back");
+        backButton.setFont(new Font("Arial", Font.BOLD, 16));
+        backButton.addActionListener(e -> {
+            mainFrame.getContentPane().removeAll(); // Remove all components from the frame
+            displayOutput(); // Display the main screen again
+            emperorFrame.dispose();
+        });
+        emperorContentPanel.add(backButton, BorderLayout.SOUTH);
+    }
+    private void displayChiefs(JFrame mainFrame) {
+        General zhouYu = new General("Zhou Yu", "zhouYu.png", "Chief of Military", "Cavalry", 80, 86, 97, 80, 90);
+        General zhangZhao = new General("Zhang Zhao", "zhangZhao.png", "Chief of Management", "Archer", 22, 80, 89, 99, 60);
+
+        ArrayList<General> chiefs = new ArrayList<>();
+        chiefs.add(zhouYu);
+        chiefs.add(zhangZhao);
+
+        for (General chief : chiefs) {
+            WuKingdomNode chiefNode = new WuKingdomNode(chief);
+            int totalAbility = chief.getTotalAbility();
+            if (totalAbility >= 250) {
+                chief.setAbilityLevel("S");
+            } else if (totalAbility >= 220) {
+                chief.setAbilityLevel("A");
+            } else if (totalAbility >= 190) {
+                chief.setAbilityLevel("B");
+            } else {
+                chief.setAbilityLevel("C");
+            }
+        }
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setPreferredSize(new Dimension(700, 500)); // Set the preferred size
 
         JPanel chiefContentPanel = new JPanel();
         chiefContentPanel.setLayout(new GridLayout(chiefs.size(), 6));
@@ -133,93 +204,66 @@ public class GeneralHierarchy extends JFrame {
                     "\nHit Point: " + chief.getHitPoint() +
                     "\nTotal Ability: " + chief.getTotalAbility() +
                     "\nAbility Level: " + chief.getAbilityLevel();
-
-
             JTextArea textArea = new JTextArea(chiefInfo);
             textArea.setEditable(false);
             chiefContentPanel.add(textArea);
         }
+        JScrollPane chiefScrollPane = new JScrollPane(chiefContentPanel);
+        chiefScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        mainFrame.add(chiefScrollPane, BorderLayout.CENTER);
+        mainFrame.setLocationRelativeTo(mainFrame); // Center the frame
+        mainFrame.pack();
+        mainFrame.setVisible(true);
 
-        ArrayList<General> generals = new ArrayList<>();
-        generals.add(xuSheng);
-        generals.add(zhuGeJin);
-        generals.add(luSu);
-        generals.add(taiShiCi);
-        generals.add(xiaoQiao);
-        generals.add(daQiao);
-        generals.add(zhouTai);
-        generals.add(ganNing);
-        generals.add(luMeng);
-        generals.add(huangGai);
+        JButton backButton = new JButton("Back");
+        backButton.setFont(new Font("Arial", Font.BOLD, 16));
+        backButton.addActionListener(e -> {
+            mainFrame.getContentPane().removeAll(); // Remove all components from the frame
+            displayOutput(); // Display the main screen again
+        });
+        mainPanel.add(backButton, BorderLayout.SOUTH);
 
-        for (General general : generals) {
-            WuKingdomNode generalNode = new WuKingdomNode(general);
-            int totalAbility = general.getTotalAbility();
-
-            if (totalAbility >= 250) {
-                general.setAbilityLevel("S");
-            } else if (totalAbility >= 220) {
-                general.setAbilityLevel("A");
-            } else if (totalAbility >= 190) {
-                general.setAbilityLevel("B");
-            } else {
-                general.setAbilityLevel("C");
-            }
-
-            if (general.getIntelligence() > general.getStrength()) {
-                zhangZhaoN.addChild(generalNode);
-            } else {
-                zhouYuN.addChild(generalNode);
-            }
         }
-        sunWuN.displayWuKingdom();
-        System.out.println();
+        public void displayGenerals(JFrame mainFrame) {
+            General xuSheng = new General("Xu Sheng", "xuSheng.png", "General", "Archer", 90, 78, 72, 40, 94);
+            General zhuGeJin = new General("Zu Ge Jin", "zhuGeJin.png", "General", "Archer", 63, 61, 88, 82, 71);
+            General luSu = new General("Lu Su", "luSu.png", "General", "Infantry", 43, 87, 84, 88, 53);
+            General taiShiCi = new General("Tai Shi Ci", "taiShiCi.png", "General", "Cavalry", 96, 81, 43, 33, 97);
+            General xiaoQiao = new General("Xiao Qiao", "xiaoQiao.png", "General", "Infantry", 42, 52, 89, 77, 34);
+            General daQiao = new General("Da Qiao", "daQiao.png", "General", "Cavalry", 39, 62, 90, 62, 41);
+            General zhouTai = new General("Zhou Tai", "zhouTai.png", "General", "Infantry", 92, 89, 72, 43, 99);
+            General ganNing = new General("Gan Ning", "ganNing.png", "General", "Archer", 98, 92, 45, 23, 97);
+            General luMeng = new General("Lu Meng", "luMeng.png", "General", "Cavalry", 70, 77, 93, 83, 88);
+            General huangGai = new General("Huang Gai", "huangGai.png", "General", "Infantry", 83, 98, 72, 42, 89);
 
-        Comparator<General> abilityComparator = Comparator.comparingInt(General::getTotalAbility);
-        generals.sort(abilityComparator);
+            ArrayList<General> generals = new ArrayList<>();
+            generals.add(xuSheng);
+            generals.add(zhuGeJin);
+            generals.add(luSu);
+            generals.add(taiShiCi);
+            generals.add(xiaoQiao);
+            generals.add(daQiao);
+            generals.add(zhouTai);
+            generals.add(ganNing);
+            generals.add(luMeng);
+            generals.add(huangGai);
 
-        // binary search starts from here
-        int targetAbility = 294;
-        int index = binarySearch(generals, targetAbility);
-        if (index != -1) {
-            General targetGeneral = generals.get(index);
-            System.out.println("General found with ability " + targetAbility + ": " + targetGeneral.getName());
-        } else {
-            System.out.println("General not found with ability " + targetAbility);
-        }
+            for (General general : generals) {
+                WuKingdomNode generalNode = new WuKingdomNode(general);
+                int totalAbility = general.getTotalAbility();
 
-        Comparator<General> politicComparator = Comparator.comparingInt(General::getPolitic).reversed();
-        Comparator<General> leadershipComparator = Comparator.comparingInt(General::getLeadership).reversed();
-        Comparator<General> strengthComparator = Comparator.comparingInt(General::getStrength).reversed();
-        Comparator<General> intelligenceComparator = Comparator.comparingInt(General::getIntelligence).reversed();
-
-        generals.sort(politicComparator);
-        List<General> politicTeam = formTeam(generals, "politic");
-        Set<General> selectedGenerals = new HashSet<>(politicTeam);
-        generals.sort(leadershipComparator);
-        List<General> leadershipTeam = formTeam(generals, "leadership", selectedGenerals);
-        selectedGenerals.addAll(leadershipTeam);
-        generals.sort(strengthComparator);
-        List<General> strengthTeam = formTeam(generals, "strength", selectedGenerals);
-        selectedGenerals.addAll(strengthTeam);
-        generals.sort(intelligenceComparator);
-        List<General> intelligenceTeam = formTeam(generals, "intelligence", selectedGenerals);
-
-        System.out.println("Politic Team:");
-        displayTeam(politicTeam);
-
-        System.out.println("\nLeadership Team:");
-        displayTeam(leadershipTeam);
-
-        System.out.println("\nStrength Team:");
-        displayTeam(strengthTeam);
-
-        System.out.println("\nIntelligence Team:");
-        displayTeam(intelligenceTeam);
-
-            JFrame generalFrame = new JFrame("Generals");
-            generalFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+                if (totalAbility >= 250) {
+                    general.setAbilityLevel("S");
+                } else if (totalAbility >= 220) {
+                    general.setAbilityLevel("A");
+                } else if (totalAbility >= 190) {
+                    general.setAbilityLevel("B");
+                } else {
+                    general.setAbilityLevel("C");
+                }
+            }
+            mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            mainFrame.setPreferredSize(new Dimension(700, 500)); // Set the preferred size
 
             JPanel generalContentPanel = new JPanel();
             generalContentPanel.setLayout(new GridLayout(generals.size(), 6));
@@ -245,33 +289,113 @@ public class GeneralHierarchy extends JFrame {
                         "\nHit Point: " + general.getHitPoint() +
                         "\nTotal Ability: " + general.getTotalAbility() +
                         "\nAbility Level: " + general.getAbilityLevel();
-
-
                 JTextArea textArea = new JTextArea(generalInfo);
                 textArea.setEditable(false);
                 generalContentPanel.add(textArea);
-
             }
-
-            JScrollPane chiefScrollPane = new JScrollPane(chiefContentPanel);
-            chiefScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
             JScrollPane generalScrollPane = new JScrollPane(generalContentPanel);
             generalScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            mainFrame.add(generalScrollPane, BorderLayout.CENTER);
+            mainFrame.setLocationRelativeTo(mainFrame); // Center the frame
+            mainFrame.pack();
+            mainFrame.setVisible(true);
+        }
+        public void character() {
+            General sunWu = new General("Sun Quan", "sunWu.png", "Emperor", "Cavalry", 96, 98, 72, 77, 95);
+            WuKingdomNode sunWuN = new WuKingdomNode(sunWu);
 
-            chiefFrame.add(chiefScrollPane, BorderLayout.CENTER);
-            chiefFrame.pack();
-            chiefFrame.setVisible(true);
+            General zhouYu = new General("Zhou Yu", "zhouYu.png", "Chief of Military", "Cavalry", 80, 86, 97, 80, 90);
+            WuKingdomNode zhouYuN = new WuKingdomNode(zhouYu);
 
-            generalFrame.add(generalScrollPane, BorderLayout.CENTER);
-            generalFrame.pack();
-            generalFrame.setVisible(true);
+            General zhangZhao = new General("Zhang Zhao", "zhangZhao.png", "Chief of Management", "Archer", 22, 80, 89, 99, 60);
+            WuKingdomNode zhangZhaoN = new WuKingdomNode(zhangZhao);
+
+            sunWuN.addChild(zhouYuN);
+            sunWuN.addChild(zhangZhaoN);
+
+            General xuSheng = new General("Xu Sheng", "xuSheng.png", "General", "Archer", 90, 78, 72, 40, 94);
+            General zhuGeJin = new General("Zu Ge Jin", "zhuGeJin.png", "General", "Archer", 63, 61, 88, 82, 71);
+            General luSu = new General("Lu Su", "luSu.png", "General", "Infantry", 43, 87, 84, 88, 53);
+            General taiShiCi = new General("Tai Shi Ci", "taiShiCi.png", "General", "Cavalry", 96, 81, 43, 33, 97);
+            General xiaoQiao = new General("Xiao Qiao", "xiaoQiao.png", "General", "Infantry", 42, 52, 89, 77, 34);
+            General daQiao = new General("Da Qiao", "daQiao.png", "General", "Cavalry", 39, 62, 90, 62, 41);
+            General zhouTai = new General("Zhou Tai", "zhouTai.png", "General", "Infantry", 92, 89, 72, 43, 99);
+            General ganNing = new General("Gan Ning", "ganNing.png", "General", "Archer", 98, 92, 45, 23, 97);
+            General luMeng = new General("Lu Meng", "luMeng.png", "General", "Cavalry", 70, 77, 93, 83, 88);
+            General huangGai = new General("Huang Gai", "huangGai.png", "General", "Infantry", 83, 98, 72, 42, 89);
+
+            ArrayList<General> generals = new ArrayList<>();
+            generals.add(xuSheng);
+            generals.add(zhuGeJin);
+            generals.add(luSu);
+            generals.add(taiShiCi);
+            generals.add(xiaoQiao);
+            generals.add(daQiao);
+            generals.add(zhouTai);
+            generals.add(ganNing);
+            generals.add(luMeng);
+            generals.add(huangGai);
+
+            for (General general : generals) {
+                WuKingdomNode generalNode = new WuKingdomNode(general);
+                int totalAbility = general.getTotalAbility();
+
+                if (general.getIntelligence() > general.getStrength()) {
+                    zhangZhaoN.addChild(generalNode);
+                } else {
+                    zhouYuN.addChild(generalNode);
+                }
+            }
+            sunWuN.displayWuKingdom();
+            System.out.println();
+
+            Comparator<General> abilityComparator = Comparator.comparingInt(General::getTotalAbility);
+            generals.sort(abilityComparator);
+
+            // binary search starts from here
+            int targetAbility = 294;
+            int index = binarySearch(generals, targetAbility);
+            if (index != -1) {
+                General targetGeneral = generals.get(index);
+                System.out.println("General found with ability " + targetAbility + ": " + targetGeneral.getName());
+            } else {
+                System.out.println("General not found with ability " + targetAbility);
+            }
+
+            Comparator<General> politicComparator = Comparator.comparingInt(General::getPolitic).reversed();
+            Comparator<General> leadershipComparator = Comparator.comparingInt(General::getLeadership).reversed();
+            Comparator<General> strengthComparator = Comparator.comparingInt(General::getStrength).reversed();
+            Comparator<General> intelligenceComparator = Comparator.comparingInt(General::getIntelligence).reversed();
+
+            generals.sort(politicComparator);
+            List<General> politicTeam = formTeam(generals, "politic");
+            Set<General> selectedGenerals = new HashSet<>(politicTeam);
+            generals.sort(leadershipComparator);
+            List<General> leadershipTeam = formTeam(generals, "leadership", selectedGenerals);
+            selectedGenerals.addAll(leadershipTeam);
+            generals.sort(strengthComparator);
+            List<General> strengthTeam = formTeam(generals, "strength", selectedGenerals);
+            selectedGenerals.addAll(strengthTeam);
+            generals.sort(intelligenceComparator);
+            List<General> intelligenceTeam = formTeam(generals, "intelligence", selectedGenerals);
+
+            System.out.println("Politic Team:");
+            displayTeam(politicTeam);
+
+            System.out.println("\nLeadership Team:");
+            displayTeam(leadershipTeam);
+
+            System.out.println("\nStrength Team:");
+            displayTeam(strengthTeam);
+
+            System.out.println("\nIntelligence Team:");
+            displayTeam(intelligenceTeam);
         }
     public GeneralHierarchy() {
         // Set up the frame
         setTitle("General Hierarchy");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(800, 600));
+        setPreferredSize(new Dimension(700, 500));
 
         // Create the output text area
         outputTextArea = new JTextArea();

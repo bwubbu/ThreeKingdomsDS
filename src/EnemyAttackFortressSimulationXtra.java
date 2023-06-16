@@ -1,4 +1,5 @@
 import java.util.*;
+/*
 
 public class EnemyAttackFortressSimulationXtra extends EnemyAttackFortressSimulation {
 
@@ -157,3 +158,5 @@ public class EnemyAttackFortressSimulationXtra extends EnemyAttackFortressSimula
         System.out.println("Travel time: " + shortestTravelTime + " hours");
     }
 }
+
+*/
