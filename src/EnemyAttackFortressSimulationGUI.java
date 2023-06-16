@@ -13,7 +13,6 @@ public class EnemyAttackFortressSimulationGUI extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(EnemyAttackFortressSimulationGUI.class.getResource("EnemyAttack-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        //stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
     }
