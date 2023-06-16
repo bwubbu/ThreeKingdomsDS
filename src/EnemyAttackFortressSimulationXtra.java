@@ -127,44 +127,33 @@ public class EnemyAttackFortressSimulationXtra extends EnemyAttackFortressSimula
         Scanner scanner = new Scanner(System.in);
         int enemyBaseCamp = scanner.nextInt();
 
-        List<List<Integer>> paths = BFS(1, enemyBaseCamp);
-
-        int shortestPathLength = Integer.MAX_VALUE;
-        List<List<Integer>> shortestPaths = new ArrayList<>();
-
-        // Find the shortest path length
-        for (List<Integer> path : paths) {
-            if (path.size() < shortestPathLength) {
-                shortestPathLength = path.size();
-            }
-        }
-
-        // Filter out paths that are not the shortest path
-        for (List<Integer> path : paths) {
-            if (path.size() == shortestPathLength) {
-                shortestPaths.add(path);
-            }
-        }
-
-        // Display the best paths
-        System.out.println("Best paths:");
-        for (List<Integer> path : shortestPaths) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("1");
-            for (int i = 1; i < path.size(); i++) {
-                sb.append(" -> ").append(path.get(i));
-            }
-            System.out.println(sb);
-        }
-
         System.out.println("Enter the unit type (Cavalry/Archer/Infantry): ");
         String unit = scanner.next();
 
-        // Calculate and display the travel time for each shortest path
-        System.out.println("Travel times:");
-        for (List<Integer> path : shortestPaths) {
+        List<List<Integer>> paths = BFS(1, enemyBaseCamp);
+
+        double shortestTravelTime = Double.MAX_VALUE;
+        List<Integer> bestPath = null;
+
+        // Find the path with the minimum travel time
+        for (List<Integer> path : paths) {
             double travelTime = graph.calculateTravelTime(path, unit);
-            System.out.println(path + " - " + travelTime + " hours");
+            if (travelTime < shortestTravelTime) {
+                shortestTravelTime = travelTime;
+                bestPath = path;
+            }
         }
+
+        // Display the best path
+        System.out.println("Best path:");
+        StringBuilder sb = new StringBuilder();
+        sb.append("1");
+        for (int i = 1; i < bestPath.size(); i++) {
+            sb.append(" -> ").append(bestPath.get(i));
+        }
+        System.out.println(sb);
+
+        // Calculate and display the travel time for the best path
+        System.out.println("Travel time: " + shortestTravelTime + " hours");
     }
 }
