@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 public class GeneralHierarchy extends JFrame {
-    private final JTextArea outputTextArea;
+    private JTextArea outputTextArea;
 
     private JPanel mainPanel;
     private void displayOutput() {
@@ -23,7 +23,7 @@ public class GeneralHierarchy extends JFrame {
 
         // Create the main frame
         JFrame mainFrame = new JFrame("Three Kingdoms: Battle of Red Cliff");
-        mainFrame.setPreferredSize(new Dimension(700, 500)); // Set the preferred size
+        mainFrame.setPreferredSize(new Dimension(600, 600)); // Set the preferred size
 
         // Create the main panel
         JPanel mainPanel = new JPanel();
@@ -90,7 +90,7 @@ public class GeneralHierarchy extends JFrame {
         playMp3();
     }
     private void displayEmperor(JFrame mainFrame) {
-        General sunWu = new General("Sun Wu", "sunWu.png", "Emperor", "Cavalry", 96, 98, 72, 77, 95);
+        General sunWu = new General("Sun Quan", "sunWu.png", "Emperor", "Cavalry", 96, 98, 72, 77, 95);
 
         ArrayList<General> chiefs = new ArrayList<>();
         chiefs.add(sunWu);
@@ -111,7 +111,7 @@ public class GeneralHierarchy extends JFrame {
 
         JFrame emperorFrame = new JFrame("Emperor");
         emperorFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        emperorFrame.setPreferredSize(new Dimension(700, 500)); // Set the preferred size
+        emperorFrame.setPreferredSize(new Dimension(600, 600)); // Set the preferred size
 
         JPanel emperorContentPanel = new JPanel();
         emperorContentPanel.setLayout(new GridLayout(chiefs.size(), 6));
@@ -143,9 +143,13 @@ public class GeneralHierarchy extends JFrame {
         JScrollPane chiefScrollPane = new JScrollPane(emperorContentPanel);
         chiefScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         emperorFrame.add(chiefScrollPane, BorderLayout.CENTER);
-        emperorFrame.setLocationRelativeTo(mainFrame); // Center the frame
+        emperorFrame.setLocationRelativeTo(null); // Center the frame
         emperorFrame.pack();
         emperorFrame.setVisible(true);
+
+        // Create the button panel
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout());
 
         JButton backButton = new JButton("Back");
         backButton.setFont(new Font("Arial", Font.BOLD, 16));
@@ -154,7 +158,8 @@ public class GeneralHierarchy extends JFrame {
             displayOutput(); // Display the main screen again
             emperorFrame.dispose();
         });
-        emperorContentPanel.add(backButton, BorderLayout.SOUTH);
+        emperorFrame.add(buttonPanel, BorderLayout.SOUTH);
+        buttonPanel.add(backButton);
     }
     private void displayChiefs(JFrame mainFrame) {
         General zhouYu = new General("Zhou Yu", "zhouYu.png", "Chief of Military", "Cavalry", 80, 86, 97, 80, 90);
@@ -177,8 +182,10 @@ public class GeneralHierarchy extends JFrame {
                 chief.setAbilityLevel("C");
             }
         }
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setPreferredSize(new Dimension(700, 500)); // Set the preferred size
+
+        JFrame chiefFrame = new JFrame("Chiefs");
+        chiefFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        chiefFrame.setPreferredSize(new Dimension(600, 600)); // Set the preferred size
 
         JPanel chiefContentPanel = new JPanel();
         chiefContentPanel.setLayout(new GridLayout(chiefs.size(), 6));
@@ -210,19 +217,24 @@ public class GeneralHierarchy extends JFrame {
         }
         JScrollPane chiefScrollPane = new JScrollPane(chiefContentPanel);
         chiefScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        mainFrame.add(chiefScrollPane, BorderLayout.CENTER);
-        mainFrame.setLocationRelativeTo(mainFrame); // Center the frame
-        mainFrame.pack();
-        mainFrame.setVisible(true);
+        chiefFrame.add(chiefScrollPane, BorderLayout.CENTER);
+        chiefFrame.setLocationRelativeTo(mainFrame); // Center the frame
+        chiefFrame.pack();
+        chiefFrame.setVisible(true);
+
+        // Create the button panel
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout());
 
         JButton backButton = new JButton("Back");
         backButton.setFont(new Font("Arial", Font.BOLD, 16));
         backButton.addActionListener(e -> {
             mainFrame.getContentPane().removeAll(); // Remove all components from the frame
             displayOutput(); // Display the main screen again
+            chiefFrame.dispose();
         });
-        mainPanel.add(backButton, BorderLayout.SOUTH);
-
+        chiefFrame.add(buttonPanel, BorderLayout.SOUTH);
+        buttonPanel.add(backButton);
         }
         public void displayGenerals(JFrame mainFrame) {
             General xuSheng = new General("Xu Sheng", "xuSheng.png", "General", "Archer", 90, 78, 72, 40, 94);
@@ -262,8 +274,10 @@ public class GeneralHierarchy extends JFrame {
                     general.setAbilityLevel("C");
                 }
             }
-            mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            mainFrame.setPreferredSize(new Dimension(700, 500)); // Set the preferred size
+
+            JFrame generalFrame = new JFrame("Generals");
+            generalFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            generalFrame.setPreferredSize(new Dimension(600, 600)); // Set the preferred size
 
             JPanel generalContentPanel = new JPanel();
             generalContentPanel.setLayout(new GridLayout(generals.size(), 6));
@@ -293,14 +307,28 @@ public class GeneralHierarchy extends JFrame {
                 textArea.setEditable(false);
                 generalContentPanel.add(textArea);
             }
-            JScrollPane generalScrollPane = new JScrollPane(generalContentPanel);
-            generalScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-            mainFrame.add(generalScrollPane, BorderLayout.CENTER);
-            mainFrame.setLocationRelativeTo(mainFrame); // Center the frame
-            mainFrame.pack();
-            mainFrame.setVisible(true);
+            JScrollPane chiefScrollPane = new JScrollPane(generalContentPanel);
+            chiefScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            generalFrame.add(chiefScrollPane, BorderLayout.CENTER);
+            generalFrame.setLocationRelativeTo(mainFrame); // Center the frame
+            generalFrame.pack();
+            generalFrame.setVisible(true);
+
+            // Create the button panel
+            JPanel buttonPanel = new JPanel();
+            buttonPanel.setLayout(new FlowLayout());
+
+            JButton backButton = new JButton("Back");
+            backButton.setFont(new Font("Arial", Font.BOLD, 16));
+            backButton.addActionListener(e -> {
+                mainFrame.getContentPane().removeAll(); // Remove all components from the frame
+                displayOutput(); // Display the main screen again
+                generalFrame.dispose();
+            });
+            generalFrame.add(buttonPanel, BorderLayout.SOUTH);
+            buttonPanel.add(backButton);
         }
-        public void character() {
+        public void TeamInfo() {
             General sunWu = new General("Sun Quan", "sunWu.png", "Emperor", "Cavalry", 96, 98, 72, 77, 95);
             WuKingdomNode sunWuN = new WuKingdomNode(sunWu);
 
@@ -391,30 +419,32 @@ public class GeneralHierarchy extends JFrame {
             System.out.println("\nIntelligence Team:");
             displayTeam(intelligenceTeam);
         }
+
+        public void displayHierarchy(JFrame mainFrame) {
+            // Set up the frame
+            setTitle("General Hierarchy");
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            setPreferredSize(new Dimension(700, 500));
+
+            // Create the output text area
+            outputTextArea = new JTextArea();
+            outputTextArea.setEditable(false);
+
+            // Add the output text area to a scroll pane
+            JScrollPane scrollPane = new JScrollPane(outputTextArea);
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+            // Set the layout manager
+            setLayout(new BorderLayout());
+            add(scrollPane, BorderLayout.CENTER);
+
+            // Display the frame
+            pack();
+            setLocationRelativeTo(null); // Center the window on the screen
+            setVisible(true);
+
+        }
     public GeneralHierarchy() {
-        // Set up the frame
-        setTitle("General Hierarchy");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(700, 500));
-
-        // Create the output text area
-        outputTextArea = new JTextArea();
-        outputTextArea.setEditable(false);
-
-        // Add the output text area to a scroll pane
-        JScrollPane scrollPane = new JScrollPane(outputTextArea);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-        // Set the layout manager
-        setLayout(new BorderLayout());
-        add(scrollPane, BorderLayout.CENTER);
-
-        // Display the frame
-        pack();
-        setLocationRelativeTo(null); // Center the window on the screen
-        setVisible(true);
-
-        // Call the method to run the code and display the output
         displayOutput();
     }
     private void playMp3() {
