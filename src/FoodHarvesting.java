@@ -15,6 +15,10 @@ public class FoodHarvesting extends EnemyAttackFortressSimulation{
         }
         visited = new boolean[numNodes + 1]; // Initialize the visited array
     }
+     public void addEdge(int from, int to) {
+        adjacencyList[from].add(to);
+        adjacencyList[to].add(from);
+    }
 
     private boolean DFS(int currentNode, List<Integer> noFoodNodes, List<Integer> path, boolean includeNoFoodNode) {
         visited[currentNode] = true;
