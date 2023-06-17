@@ -61,6 +61,9 @@ class General {
     public int getPolitic() {
         return politic;
     }
+    public int getHitPoint() {
+        return hitPoint;
+    }
 
     public int getTotalAbility() {
         return politic + leadership + strength + intelligence;

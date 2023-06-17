@@ -76,11 +76,9 @@ public class HierarchyGUI extends JFrame {
         infoFrame.setLocationRelativeTo(this);
 
         // Create a new JPanel to hold the general's information
-        JPanel infoPanel = new JPanel(new GridLayout(3, 2));
+        JPanel infoPanel = new JPanel(new GridLayout(8, 3));
 
         // Create and add the components to the infoPanel
-        JLabel pictureLabel = new JLabel(new ImageIcon(imagePath + general.getImageFileName()));
-        pictureLabel.setPreferredSize(new Dimension(100, 150)); // Set the preferred size for the picture
 
         JLabel nameLabel = new JLabel("Name: " + general.getName());
         JLabel titleLabel = new JLabel("Title: " + general.getTitle());
@@ -88,22 +86,26 @@ public class HierarchyGUI extends JFrame {
         JLabel intelligenceLabel = new JLabel("Intelligence: " + general.getIntelligence());
         JLabel strengthLabel = new JLabel("Strength: " + general.getStrength());
         JLabel leadershipLabel = new JLabel("Leadership: " + general.getLeadership());
+        JLabel politicLabel = new JLabel("Politics: " + general.getPolitic());
+        JLabel hitpointLabel = new JLabel("Hit Point: " + general.getHitPoint());
 
-        infoPanel.add(pictureLabel);
-        infoPanel.add(new JPanel()); // Empty panel to occupy the second column in the first row
         infoPanel.add(nameLabel);
         infoPanel.add(titleLabel);
         infoPanel.add(typeLabel);
         infoPanel.add(intelligenceLabel);
         infoPanel.add(strengthLabel);
         infoPanel.add(leadershipLabel);
+        infoPanel.add(politicLabel);
+        infoPanel.add(hitpointLabel);
 
-        // Add the infoPanel to the infoFrame
-        infoFrame.getContentPane().add(infoPanel);
+// Add the infoPanel to the infoFrame's content pane using BorderLayout.CENTER
+        infoFrame.getContentPane().add(infoPanel, BorderLayout.CENTER);
 
-        // Make the infoFrame visible
-        infoFrame.setVisible(true);
-        // Create a back button to close the information frame
+// Create the button panel
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout());
+
+// Create a back button to close the information frame
         JButton backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -112,11 +114,13 @@ public class HierarchyGUI extends JFrame {
             }
         });
 
-        // Add the back button to the panel
-        infoPanel.add(backButton);
+// Add the back button to the button panel
+        buttonPanel.add(backButton);
 
-        // Set the panel as the content pane of the information frame
-        infoFrame.setContentPane(infoPanel);
+// Add the button panel to the infoFrame's content pane using BorderLayout.SOUTH
+        infoFrame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+
+// Make the infoFrame visible
         infoFrame.setVisible(true);
     }
     public static void main(String[] args) {
