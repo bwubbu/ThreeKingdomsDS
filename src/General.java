@@ -1,8 +1,4 @@
-import java.lang.*;
-/*
-
-
-class General implements Comparable<General> {
+class General {
     private String name;
     private String imageFileName;
     private String title;
@@ -13,7 +9,8 @@ class General implements Comparable<General> {
     private int politic;
     private int hitPoint;
     private String abilityLevel;
-    public General(String name,String imageFileName, String title, String armyType, int strength, int leadership, int intelligence,
+
+    public General(String name, String imageFileName, String title, String armyType, int strength, int leadership, int intelligence,
                    int politic, int hitPoint) {
         this.name = name;
         this.imageFileName = imageFileName;
@@ -25,18 +22,30 @@ class General implements Comparable<General> {
         this.politic = politic;
         this.hitPoint = hitPoint;
     }
-    // putting getters here
+
+    // Getters and setters
+
     public String getName() {
         return name;
     }
-
     public String getTitle() {
-        return title;
+        if (title.equals("General")) {
+            if (strength > intelligence) {
+                return "Military General";
+            } else {
+                return "Management General";
+            }
+        } else {
+            return title;
+        }
     }
-
+    public String getImageFileName() {
+        return imageFileName;
+    }
     public String getArmyType() {
         return armyType;
     }
+
     public int getStrength() {
         return strength;
     }
@@ -49,47 +58,42 @@ class General implements Comparable<General> {
         return intelligence;
     }
 
-    public String getImageFileName() {
-        return imageFileName;
-    }
     public int getPolitic() {
         return politic;
     }
 
-    public int getHitPoint() {
-        return hitPoint;
-    }
-    public String getAbilityLevel() {
-        return abilityLevel;
-    }
     public int getTotalAbility() {
         return politic + leadership + strength + intelligence;
+    }
+
+    public String getAbilityLevel() {
+        return abilityLevel;
     }
 
     public void setAbilityLevel(String abilityLevel) {
         this.abilityLevel = abilityLevel;
     }
 
-    public String getDepartment(){
+    public String getDepartment() {
         if (getName().equals("Sun Quan")) {
             return "Emperor";
         }
         if (getName().equals("Zhou Yu")) {
             return "Chief of Military Department";
         }
-        if (getName().equals("Zhang Zhao"))
+        if (getName().equals("Zhang Zhao")) {
             return "Chief of Management Department";
-
-        if (getIntelligence() > getStrength()){
-            return "Management Department";
         }
-        else {
+
+        if (getIntelligence() > getStrength()) {
+            return "Management Department";
+        } else {
             return "Military Department";
         }
     }
+
     @Override
-    public int compareTo(General other) {
-        return Integer.compare(this.leadership, other.leadership);
+    public String toString() {
+        return name;
     }
 }
-*/

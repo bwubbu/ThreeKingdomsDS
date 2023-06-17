@@ -215,8 +215,6 @@ public class WuKingdomTest {
                 right = mid - 1;
             }
         }
-
         return -(left + 1);
     }
-
 }
