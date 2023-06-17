@@ -16,11 +16,6 @@ public class FoodHarvesting extends EnemyAttackFortressSimulation{
         visited = new boolean[numNodes + 1]; // Initialize the visited array
     }
 
-    public void addEdge(int from, int to) {
-        adjacencyList[from].add(to);
-        adjacencyList[to].add(from);
-    }
-
     private boolean DFS(int currentNode, List<Integer> noFoodNodes, List<Integer> path, boolean includeNoFoodNode) {
         visited[currentNode] = true;
         path.add(currentNode);
@@ -80,14 +75,12 @@ public class FoodHarvesting extends EnemyAttackFortressSimulation{
     public static void main(String[] args) {
         FoodHarvesting graph = new FoodHarvesting(10);
         graph.addEdgesToGraph();
-        
+
         System.out.println("Nodes with no food (enter '0' to finish):");
         Scanner scanner = new Scanner(System.in);
         List<Integer> noFoodNodes = new ArrayList<>();
-        int noFoodNode;
-        while ((noFoodNode = scanner.nextInt()) != 0) {
-            noFoodNodes.add(noFoodNode);
-        }
+        int noFoodNode= scanner.nextInt();
+        noFoodNodes.add(noFoodNode);
 
         List<Integer> path = graph.findPath(noFoodNodes);
 
