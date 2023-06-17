@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class EnemyAttackFortressSimulation {
-    private final Map<Integer, List<Integer>> adjacencyList;
+    public static Map<Integer, List<Integer>> adjacencyList = null;
 
     public EnemyAttackFortressSimulation() {
         adjacencyList = new HashMap<>();
@@ -48,7 +48,7 @@ public class EnemyAttackFortressSimulation {
         addEdge(10, 9);
     }
 
-    public List<List<Integer>> breadthFirstSearch(int start, int target) {
+    public static List<List<Integer>> BFS(int start, int target) {
         Queue<Pair<Integer, List<Integer>>> queue = new LinkedList<>();
         queue.offer(new Pair<>(start, new ArrayList<>(Collections.singletonList(start))));
 
@@ -91,7 +91,7 @@ public class EnemyAttackFortressSimulation {
         Scanner scanner = new Scanner(System.in);
         int enemyBaseCamp = scanner.nextInt();
 
-        List<List<Integer>> paths = graph.breadthFirstSearch(1, enemyBaseCamp);
+        List<List<Integer>> paths = graph.BFS(1, enemyBaseCamp);
 
         int shortestPathLength = Integer.MAX_VALUE;
         List<List<Integer>> shortestPaths = new ArrayList<>();
@@ -111,7 +111,7 @@ public class EnemyAttackFortressSimulation {
         }
 
         // Display the best paths
-        System.out.println("Best paths:");
+        System.out.println("Best path(s):");
         for (List<Integer> path : shortestPaths) {
             StringBuilder sb = new StringBuilder();
             sb.append("1");
@@ -120,5 +120,6 @@ public class EnemyAttackFortressSimulation {
             }
             System.out.println(sb);
         }
+
     }
 }
