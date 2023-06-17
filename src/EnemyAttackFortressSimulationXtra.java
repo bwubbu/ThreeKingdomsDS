@@ -2,7 +2,10 @@ import java.util.*;
 
 public class EnemyAttackFortressSimulationXtra extends EnemyAttackFortressSimulation {
 
+    public List<Integer> getNeighbors(int node) {
 
+        return adjacencyList.getOrDefault(node, new ArrayList<>());
+    }
     private String getTerrain(int source, int destination) {
         // Define the terrain for each edge based on the given geographical conditions
         Map<String, List<String>> terrainMap = new HashMap<>();
@@ -145,7 +148,7 @@ public class EnemyAttackFortressSimulationXtra extends EnemyAttackFortressSimula
         return distance / (speed * terrainFactor);
     }
 
-    private List<Integer> getShortestPath(int destination, String unit) {
+    private List<Integer> BFS(int destination, String unit) {
         Map<Integer, Double> distance = new HashMap<>();
         Map<Integer, Integer> parent = new HashMap<>();
         Set<Integer> visited = new HashSet<>();
@@ -195,6 +198,7 @@ public class EnemyAttackFortressSimulationXtra extends EnemyAttackFortressSimula
     }
 
 
+
     public static void main(String[] args) {
         System.out.println("Enter the base camp for the enemy base camp: ");
         EnemyAttackFortressSimulationXtra graph = new EnemyAttackFortressSimulationXtra();
@@ -207,7 +211,7 @@ public class EnemyAttackFortressSimulationXtra extends EnemyAttackFortressSimula
 
         // Find the best path for each unit type
         for (String unit : units) {
-            List<Integer> path = graph.getShortestPath(enemyBaseCamp, unit);
+            List<Integer> path = graph.BFS(enemyBaseCamp, unit);
 
             if (path != null) {
                 StringBuilder sb = new StringBuilder();
@@ -220,7 +224,7 @@ public class EnemyAttackFortressSimulationXtra extends EnemyAttackFortressSimula
 
                 double travelTime = graph.calculateTravelTime(path, unit);
                 System.out.println("Shortest path for " + unit + ": " + sb);
-                System.out.println("Travel time: " + travelTime);
+                System.out.println("Travel time: " + travelTime + " hours");
             } else {
                 System.out.println("No path found for " + unit);
             }
