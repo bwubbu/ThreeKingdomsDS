@@ -1,5 +1,5 @@
 import java.util.*;
-
+/*
 public class EnemyAttackFortressSimulationXtra extends EnemyAttackFortressSimulation {
 
     private String getTerrain(int source, int destination) {
@@ -184,3 +184,4 @@ public class EnemyAttackFortressSimulationXtra extends EnemyAttackFortressSimula
 
 }
 
+*/

@@ -14,6 +14,10 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
+
+/*
+
+
 public class GeneralHierarchyTemp extends JFrame {
     private JTextArea outputTextArea;
 
@@ -73,44 +77,14 @@ public class GeneralHierarchyTemp extends JFrame {
         buttonPanel.setLayout(new FlowLayout());
 
         // Create the displayCharacters button
-        JButton displayCharacterButton = new JButton("Characters");
-        displayCharacterButton.setFont(new Font("Arial", Font.BOLD, 13));
+        JButton displayCharacterButton = new JButton("Start");
+        displayCharacterButton.setFont(new Font("Arial", Font.BOLD, 16));
         displayCharacterButton.addActionListener(e -> {
             displayCharacters(mainFrame);
 
             mainFrame.dispose();
         });
         buttonPanel.add(displayCharacterButton);
-
-        // Create the characterFinder button
-        JButton characterFinderButton = new JButton("Character Finder");
-        characterFinderButton.setFont(new Font("Arial", Font.BOLD, 13));
-        characterFinderButton.addActionListener(e -> {
-            displayCharacters(mainFrame);
-
-            mainFrame.dispose();
-        });
-        buttonPanel.add(characterFinderButton);
-
-        // Create the hierarchy button
-        JButton displayHierarchyButton = new JButton("Hierarchy");
-        displayHierarchyButton.setFont(new Font("Arial", Font.BOLD, 13));
-        displayHierarchyButton.addActionListener(e -> {
-            displayCharacters(mainFrame);
-
-            mainFrame.dispose();
-        });
-        buttonPanel.add(displayHierarchyButton);
-
-        // Create the Team button
-        JButton displayTeamButton = new JButton("Team");
-        displayTeamButton.setFont(new Font("Arial", Font.BOLD, 13));
-        displayTeamButton.addActionListener(e -> {
-            displayCharacters(mainFrame);
-
-            mainFrame.dispose();
-        });
-        buttonPanel.add(displayTeamButton);
 
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
@@ -154,21 +128,6 @@ public class GeneralHierarchyTemp extends JFrame {
         chiefs.add(zhouYu);
         chiefs.add(zhangZhao);
 
-        for (General chief : chiefs) {
-            WuKingdomNode chiefNode = new WuKingdomNode(chief);
-            int totalAbility = chief.getTotalAbility();
-
-            if (totalAbility >= 250) {
-                chief.setAbilityLevel("S");
-            } else if (totalAbility >= 220) {
-                chief.setAbilityLevel("A");
-            } else if (totalAbility >= 190) {
-                chief.setAbilityLevel("B");
-            } else {
-                chief.setAbilityLevel("C");
-            }
-        }
-
         JFrame chiefFrame = new JFrame("Chiefs");
         chiefFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         chiefFrame.setPreferredSize(new Dimension(700, 500)); // Set the preferred size
@@ -195,8 +154,7 @@ public class GeneralHierarchyTemp extends JFrame {
                     "\nStrength: " + chief.getStrength() +
                     "\nIntelligence: " + chief.getIntelligence() +
                     "\nHit Point: " + chief.getHitPoint() +
-                    "\nTotal Ability: " + chief.getTotalAbility() +
-                    "\nAbility Level: " + chief.getAbilityLevel();
+                    "\nTotal Ability: " + chief.getTotalAbility();
 
 
             JTextArea textArea = new JTextArea(chiefInfo);
@@ -224,17 +182,6 @@ public class GeneralHierarchyTemp extends JFrame {
 
         for (General general : generals) {
             WuKingdomNode generalNode = new WuKingdomNode(general);
-            int totalAbility = general.getTotalAbility();
-
-            if (totalAbility >= 250) {
-                general.setAbilityLevel("S");
-            } else if (totalAbility >= 220) {
-                general.setAbilityLevel("A");
-            } else if (totalAbility >= 190) {
-                general.setAbilityLevel("B");
-            } else {
-                general.setAbilityLevel("C");
-            }
 
             if (general.getIntelligence() > general.getStrength()) {
                 zhangZhaoN.addChild(generalNode);
@@ -245,35 +192,29 @@ public class GeneralHierarchyTemp extends JFrame {
         sunWuN.displayWuKingdom();
         System.out.println();
 
-        Comparator<General> abilityComparator = Comparator.comparingInt(General::getTotalAbility);
-        generals.sort(abilityComparator);
+        Comparator<General> totalAbilityComparator = Comparator.comparingInt(General::getTotalAbility).reversed();
 
-        // binary search starts from here
-        int targetAbility = 294;
-        int index = binarySearch(generals, targetAbility);
-        if (index != -1) {
-            General targetGeneral = generals.get(index);
-            System.out.println("General found with ability " + targetAbility + ": " + targetGeneral.getName());
-        } else {
-            System.out.println("General not found with ability " + targetAbility);
+        generals.sort(totalAbilityComparator);
+
+        List<General> politicTeam = new ArrayList<>();
+        List<General> leadershipTeam = new ArrayList<>();
+        List<General> strengthTeam = new ArrayList<>();
+        List<General> intelligenceTeam = new ArrayList<>();
+
+        for (General general : generals) {
+            if (!politicTeam.contains(general) && !leadershipTeam.contains(general) &&
+                    !strengthTeam.contains(general) && !intelligenceTeam.contains(general)) {
+                if (politicTeam.size() < 3) {
+                    politicTeam.add(general);
+                } else if (leadershipTeam.size() < 2) {
+                    leadershipTeam.add(general);
+                } else if (strengthTeam.size() < 2) {
+                    strengthTeam.add(general);
+                } else if (intelligenceTeam.size() < 3) {
+                    intelligenceTeam.add(general);
+                }
+            }
         }
-
-        Comparator<General> politicComparator = Comparator.comparingInt(General::getPolitic).reversed();
-        Comparator<General> leadershipComparator = Comparator.comparingInt(General::getLeadership).reversed();
-        Comparator<General> strengthComparator = Comparator.comparingInt(General::getStrength).reversed();
-        Comparator<General> intelligenceComparator = Comparator.comparingInt(General::getIntelligence).reversed();
-
-        generals.sort(politicComparator);
-        List<General> politicTeam = formTeam(generals, "politic");
-        Set<General> selectedGenerals = new HashSet<>(politicTeam);
-        generals.sort(leadershipComparator);
-        List<General> leadershipTeam = formTeam(generals, "leadership", selectedGenerals);
-        selectedGenerals.addAll(leadershipTeam);
-        generals.sort(strengthComparator);
-        List<General> strengthTeam = formTeam(generals, "strength", selectedGenerals);
-        selectedGenerals.addAll(strengthTeam);
-        generals.sort(intelligenceComparator);
-        List<General> intelligenceTeam = formTeam(generals, "intelligence", selectedGenerals);
 
         System.out.println("Politic Team:");
         displayTeam(politicTeam);
@@ -286,6 +227,16 @@ public class GeneralHierarchyTemp extends JFrame {
 
         System.out.println("\nIntelligence Team:");
         displayTeam(intelligenceTeam);
+
+        // binary search starts from here
+        int targetAbility = 294;
+        int index = binarySearch(generals, targetAbility);
+        if (index != -1) {
+            General targetGeneral = generals.get(index);
+            System.out.println("General found with ability " + targetAbility + ": " + targetGeneral.getName());
+        } else {
+            System.out.println("General not found with ability " + targetAbility);
+        }
 
         JFrame generalFrame = new JFrame("Generals");
         generalFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -313,8 +264,7 @@ public class GeneralHierarchyTemp extends JFrame {
                     "\nStrength: " + general.getStrength() +
                     "\nIntelligence: " + general.getIntelligence() +
                     "\nHit Point: " + general.getHitPoint() +
-                    "\nTotal Ability: " + general.getTotalAbility() +
-                    "\nAbility Level: " + general.getAbilityLevel();
+                    "\nTotal Ability: " + general.getTotalAbility();
 
 
             JTextArea textArea = new JTextArea(generalInfo);
@@ -329,17 +279,66 @@ public class GeneralHierarchyTemp extends JFrame {
         generalFrame.pack();
         generalFrame.setVisible(false);
 
+        JFrame HierarchyFrame = new JFrame("Generals");
+        HierarchyFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        HierarchyFrame.setPreferredSize(new Dimension(700, 500)); // Set the preferred size
+
+        JPanel hierarchyContentPanel = new JPanel();
+        hierarchyContentPanel.setLayout(new GridLayout(generals.size(), 6));
+
+        // Create the button panel
+        JPanel chiefButtonPanel = new JPanel();
+        chiefButtonPanel.setLayout(new FlowLayout());
+
+        // Create the button panel
+        JPanel generalButtonPanel = new JPanel();
+        generalButtonPanel.setLayout(new FlowLayout());
+
+        JButton chiefBackButton = new JButton("Back");
+        chiefBackButton.setFont(new Font("Arial", Font.BOLD, 16));
+        chiefBackButton.addActionListener(e -> {
+            mainFrame.getContentPane().removeAll(); // Remove all components from the frame
+            displayOutput(); // Display the main screen again
+            chiefFrame.dispose();
+        });
+        chiefButtonPanel.add(chiefBackButton);
+        chiefFrame.add(chiefButtonPanel, BorderLayout.SOUTH);
+
         // Create a button for switching to the general frame
-        JButton nextButton = new JButton("Next");
-        nextButton.addActionListener(new ActionListener() {
+        JButton chiefNextButton = new JButton("Next");
+        chiefNextButton.setFont(new Font("Arial", Font.BOLD, 16));
+        chiefNextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 chiefFrame.setVisible(false);  // Hide the chief frame
                 generalFrame.setVisible(true); // Show the general frame
             }
         });
+        chiefButtonPanel.add(chiefNextButton);
+        chiefFrame.add(chiefButtonPanel, BorderLayout.SOUTH);
 
-        chiefFrame.add(nextButton, BorderLayout.SOUTH); // Add the button to the chief frame
+        JButton generalBackButton = new JButton("Back");
+        generalBackButton.setFont(new Font("Arial", Font.BOLD, 16));
+        generalBackButton.addActionListener(e -> {
+            chiefFrame.getContentPane().removeAll(); // Remove all components from the frame
+            displayOutput(); // Display the main screen again
+            generalFrame.dispose();
+        });
+        generalFrame.add(generalButtonPanel, BorderLayout.SOUTH);
+        generalButtonPanel.add(generalBackButton);
+
+        // Create a button for switching to the general frame
+        JButton generalNextButton = new JButton("Next");
+        generalNextButton.setFont(new Font("Arial", Font.BOLD, 16));
+        generalNextButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                chiefFrame.setVisible(false);  // Hide the chief frame
+                generalFrame.setVisible(true); // Show the general frame
+            }
+        });
+        generalButtonPanel.add(generalNextButton);
+        generalFrame.add(generalButtonPanel, BorderLayout.SOUTH);
     }
     private void playMp3() {
         // Create a JavaFX panel to initialize JavaFX toolkit
@@ -468,3 +467,6 @@ public class GeneralHierarchyTemp extends JFrame {
         SwingUtilities.invokeLater(GeneralHierarchyTemp::new);
     }
 }
+
+
+ */

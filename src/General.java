@@ -1,14 +1,17 @@
 import java.lang.*;
+/*
+
+
 class General implements Comparable<General> {
-    private final String name;
-    private final String imageFileName;
-    private final String title;
-    private final String armyType;
-    private final int strength;
-    private final int leadership;
-    private final int intelligence;
-    private final int politic;
-    private final int hitPoint;
+    private String name;
+    private String imageFileName;
+    private String title;
+    private String armyType;
+    private int strength;
+    private int leadership;
+    private int intelligence;
+    private int politic;
+    private int hitPoint;
     private String abilityLevel;
     public General(String name,String imageFileName, String title, String armyType, int strength, int leadership, int intelligence,
                    int politic, int hitPoint) {
@@ -89,3 +92,4 @@ class General implements Comparable<General> {
         return Integer.compare(this.leadership, other.leadership);
     }
 }
+*/

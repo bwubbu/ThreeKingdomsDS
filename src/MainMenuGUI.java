@@ -8,6 +8,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.util.List;
+/*
+
 
 public class MainMenuGUI extends JFrame {
     private JTextArea outputTextArea;
@@ -432,3 +434,5 @@ public class MainMenuGUI extends JFrame {
         });
     }
 }
+
+*/
